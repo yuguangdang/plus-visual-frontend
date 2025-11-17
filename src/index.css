@@ -1,0 +1,229 @@
+:root {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: dark;
+  color: rgba(255, 255, 255, 0.95);
+
+  /* Glass-morphism color variables */
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: rgba(0, 0, 0, 0.2);
+  --glow-purple: rgba(147, 51, 234, 0.5);
+  --glow-blue: rgba(59, 130, 246, 0.5);
+
+  /* Gradient colors for background */
+  --gradient-purple: #7c3aed;
+  --gradient-blue: #3b82f6;
+  --gradient-pink: #ec4899;
+  --gradient-dark: #0f0f1a;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  background: linear-gradient(to bottom left, #000000 0%, #140025 45%, #2a0d4a 85%, #3d1a66 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated gradient mesh background */
+body::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background:
+    radial-gradient(circle at 10% 80%, var(--gradient-purple) 0%, transparent 40%),
+    radial-gradient(circle at 30% 60%, var(--gradient-blue) 0%, transparent 35%),
+    radial-gradient(circle at 70% 90%, var(--gradient-pink) 0%, transparent 45%);
+  opacity: 0.15;
+  animation: meshFloat 20s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes meshFloat {
+  0%, 100% { transform: scale(1); }
+  33% { transform: scale(1.1); }
+  66% { transform: scale(0.95); }
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+/* Node-specific pulse animation with modern glow */
+@keyframes nodePulse {
+  0% {
+    box-shadow:
+      0 0 20px rgba(147, 51, 234, 0.4),
+      0 0 40px rgba(147, 51, 234, 0.2),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow:
+      0 0 30px rgba(147, 51, 234, 0.6),
+      0 0 60px rgba(147, 51, 234, 0.3),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+    transform: scale(1.02);
+  }
+  100% {
+    box-shadow:
+      0 0 20px rgba(147, 51, 234, 0.4),
+      0 0 40px rgba(147, 51, 234, 0.2),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+    transform: scale(1);
+  }
+}
+
+/* Dynamic white pulsing animation for active processing nodes */
+@keyframes nodePulseColor {
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+    box-shadow:
+      0 0 12px rgba(255, 255, 255, 0.15),
+      0 0 24px rgba(255, 255, 255, 0.08),
+      0 4px 16px rgba(0, 0, 0, 0.15),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+  }
+  50% {
+    transform: scale(1.02);
+    filter: brightness(1.15);
+    box-shadow:
+      0 0 20px rgba(255, 255, 255, 0.3),
+      0 0 40px rgba(255, 255, 255, 0.15),
+      0 6px 24px rgba(0, 0, 0, 0.2),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+    box-shadow:
+      0 0 12px rgba(255, 255, 255, 0.15),
+      0 0 24px rgba(255, 255, 255, 0.08),
+      0 4px 16px rgba(0, 0, 0, 0.15),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+  }
+}
+
+/* Fade in/out animation for node messages */
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  80% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+}
+
+/* React Flow customizations for Plus */
+.react-flow__edge-path {
+  /* Removed stroke-dasharray to allow solid lines */
+  stroke-opacity: 0.6;
+}
+
+/* React Flow container background */
+.react-flow {
+  background: transparent !important;
+}
+
+.react-flow__background {
+  display: none !important;
+}
+
+/* React Flow controls styling */
+.react-flow__controls {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 4px 16px 0 var(--glass-shadow);
+}
+
+.react-flow__controls-button {
+  background: transparent;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.react-flow__controls-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.react-flow__edge.animated .react-flow__edge-path {
+  animation: dashdraw 0.5s linear infinite;
+}
+
+@keyframes dashdraw {
+  0% {
+    stroke-dashoffset: 10;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Removed unused borderFlow animation and .plus-node classes */

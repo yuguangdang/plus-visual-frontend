@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 54.665462204678988 54.665462204677169">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke: url(#linear-gradient-2);
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4 {
+        fill: none;
+        stroke-miterlimit: 10;
+        stroke-width: 16.652549491397401px;
+      }
+
+      .cls-2 {
+        stroke: url(#linear-gradient);
+      }
+
+      .cls-3 {
+        stroke: #9747ff;
+      }
+
+      .cls-3, .cls-4 {
+        isolation: isolate;
+        opacity: .200000002980232;
+      }
+
+      .cls-4 {
+        stroke: #000810;
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="19.488417075820507" y1="1512.282979359853925" x2="55.137057407811383" y2="1547.931619691844844" gradientTransform="translate(0 1567.409669622462388) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#540a9d"/>
+      <stop offset=".856496658325195" stop-color="#9747ff"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="-.471595337598046" y1="1532.222260678381645" x2="35.177040612340441" y2="1567.870901375223411" gradientTransform="translate(0 1567.409669622462388) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset=".143859710693359" stop-color="#000810"/>
+      <stop offset="1" stop-color="#53565a"/>
+    </linearGradient>
+  </defs>
+  <g id="Isolation_Mode" data-name="Isolation Mode">
+    <g>
+      <g id="_02" data-name=" 02">
+        <path class="cls-3" d="M54.655094244897555,27.32236314255897h-.000029324837669C39.565356394899936,27.32236314255897,27.332729473184372,15.089736220841587,27.332729473184372.000027109184884v-.000027109184884"/>
+      </g>
+      <g id="_04" data-name=" 04">
+        <path class="cls-4" d="M.010365460364483,27.343095803806136h.000027321801099c15.089709769303226,0,27.32233506186094,12.232625292557714,27.32233506186094,27.322337076033364v.000029324837669"/>
+      </g>
+      <g id="_03" data-name=" 03">
+        <path class="cls-2" d="M27.343095803807955,54.655094244895736v-.000029324837669c0-15.089708525159949,12.232625292557714-27.322335446875513,27.322337076033364-27.322335446875513h.000029324837669"/>
+      </g>
+      <g id="_01" data-name=" 01">
+        <path class="cls-1" d="M27.322363142560789.010365460360845v.000027321804737C27.322363142560789,15.10010255146517,15.089736220845225,27.332729473182553.000027109183065,27.332729473182553h-.000027109183065"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Icons" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 90">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <rect class="cls-1" x="7.5" y="45.539115297968237" width="13.217473524304296" height="36.960884702028125"/>
+  <rect class="cls-1" x="48.688350983795317" y="37.440098300217869" width="13.217473524304296" height="45.059901699778493"/>
+  <rect class="cls-1" x="28.094175491900387" y="24.025189432713887" width="13.217473524304296" height="58.474810567282475"/>
+  <rect class="cls-1" x="69.282526475695704" y="7.5" width="13.217473524304296" height="75"/>
+</svg>

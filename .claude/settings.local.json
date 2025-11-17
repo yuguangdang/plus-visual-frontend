@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/yuguangdang/Desktop/plus_visual/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

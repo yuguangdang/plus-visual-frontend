@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 26.669208907342181 178.567491359237465">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#linear-gradient);
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="13.334604453671091" y1="161.209124552807225" x2="13.334604453671099" y2="9.038693167239359" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fdbe14" stop-opacity=".5"/>
+      <stop offset=".059234118523776" stop-color="#fdbe14" stop-opacity=".635710394380434"/>
+      <stop offset=".154621369793664" stop-color="#fdbe14" stop-opacity=".832110139183681"/>
+      <stop offset=".227107532453447" stop-color="#fdbe14" stop-opacity=".954164557110111"/>
+      <stop offset=".267627198492462" stop-color="#fdbe14"/>
+      <stop offset=".379363648562549" stop-color="#e9a842"/>
+      <stop offset=".631192209835693" stop-color="#b771b4"/>
+      <stop offset=".786962154522613" stop-color="#974fff"/>
+      <stop offset="1" stop-color="#974fff" stop-opacity=".200000002980232"/>
+    </linearGradient>
+  </defs>
+  <g id="Layer_19" data-name="Layer 19">
+    <rect class="cls-1" width="26.669208907342181" height="178.567491359237465"/>
+  </g>
+</svg>
