@@ -90,7 +90,7 @@ export function usePlusSSE(guideType) {
       const isDevelopment = window.location.hostname === 'localhost';
       const backendUrl = isDevelopment
         ? 'http://localhost:8080/stream'
-        : 'https://bpzemeivf7.ap-southeast-2.awsapprunner.com/stream';
+        : 'https://w2dpn8shpq.ap-southeast-2.awsapprunner.com/stream';
 
       eventSourceRef.current = new EventSource(backendUrl);
 
