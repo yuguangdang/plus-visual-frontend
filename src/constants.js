@@ -1,7 +1,7 @@
 // Plus Visual Frontend Constants
 // Cleaned up version with only used constants
 
-// Node IDs for agent nodes
+// Node IDs for agent nodes (legacy - keeping for reference)
 export const AGENT_NODE_IDS = [
   'mytask',
   'workrequest',
@@ -12,6 +12,14 @@ export const AGENT_NODE_IDS = [
   'email',
   'knowledge'
 ];
+
+// UK Showcase Agent IDs
+export const STUDENT_AGENT_IDS = ['StudentManagement', 'Knowledge'];
+export const RESIDENT_AGENT_IDS = ['bincollections', 'communityevents', 'request', 'spatial', 'taxtransactions'];
+
+export function getAgentIdsForGuide(guideType) {
+  return guideType === 'student' ? STUDENT_AGENT_IDS : RESIDENT_AGENT_IDS;
+}
 
 // React Flow configuration
 export const REACT_FLOW_CONFIG = {
@@ -56,6 +64,15 @@ export const CAMERA_ANIMATION_CONFIG = {
     requisition: { x: 200, y: 60 },
     recruitment: { x: 300, y: 60 },
     email: { x: 400, y: 60 },
+    // Student Guide agents
+    StudentManagement: { x: -100, y: 60 },
+    Knowledge: { x: 100, y: 60 },
+    // Resident Guide agents
+    bincollections: { x: -300, y: 60 },
+    request: { x: -150, y: 60 },
+    spatial: { x: 0, y: 60 },
+    taxtransactions: { x: 150, y: 60 },
+    communityevents: { x: 300, y: 60 },
     // Tier 3 - Tools (same x as agents, different y)
     'knowledge-tool': { x: -400, y: 260 },
     'mytask-tool': { x: -300, y: 260 },
@@ -65,6 +82,15 @@ export const CAMERA_ANIMATION_CONFIG = {
     'workrequest-tool': { x: 100, y: 260 },
     'requisition-tool': { x: 200, y: 260 },
     'recruitment-tool': { x: 300, y: 260 },
-    'email-tool': { x: 400, y: 260 }
+    'email-tool': { x: 400, y: 260 },
+    // Student Guide tools
+    'StudentManagement-tool': { x: -100, y: 260 },
+    'Knowledge-tool': { x: 100, y: 260 },
+    // Resident Guide tools
+    'bincollections-tool': { x: -300, y: 260 },
+    'request-tool': { x: -150, y: 260 },
+    'spatial-tool': { x: 0, y: 260 },
+    'taxtransactions-tool': { x: 150, y: 260 },
+    'communityevents-tool': { x: 300, y: 260 }
   }
 };

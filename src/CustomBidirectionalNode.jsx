@@ -13,6 +13,13 @@ import recruitmentIcon from './assets/SVG/SC25_PLUS_Recruitment.svg';
 import emailIcon from './assets/SVG/SC25_PLUS_Email.svg';
 import dxpLogo from './assets/SVG/SC25_PLUS_DXP.svg';
 import ciaLogo from './assets/SVG/SC25_PLUS_CiA.svg';
+import studentmanagementIcon from './assets/SVG/SC25_PLUS_StudentManagement.svg';
+import bincollectionsIcon from './assets/SVG/SC25_PLUS_BinCollections.svg';
+import communityeventsIcon from './assets/SVG/SC25_PLUS_CommunityEvents.svg';
+import requestIcon from './assets/SVG/SC25_PLUS_RequestManagement.svg';
+import spatialIcon from './assets/SVG/SC25_PLUS_Spatial.svg';
+import counciltaxIcon from './assets/SVG/SC25_PLUS_CouncilTax.svg';
+import thirdPartyIcon from './assets/SVG/SC25_PLUS_3rdParty.svg';
 
 // Inline Finance SVG icon (temporary until asset is provided)
 const FinanceIcon = () => (
@@ -37,7 +44,15 @@ const tier2IconMap = {
   'workrequest': workreqIcon,
   'requisition': requisitionIcon,
   'recruitment': recruitmentIcon,
-  'email': emailIcon
+  'email': emailIcon,
+  'studentmanagement': studentmanagementIcon,
+  'StudentManagement': studentmanagementIcon,
+  'Knowledge': knowledgeIcon,
+  'bincollections': bincollectionsIcon,
+  'communityevents': communityeventsIcon,
+  'request': requestIcon,
+  'spatial': spatialIcon,
+  'taxtransactions': counciltaxIcon
 };
 
 // Custom node component with bidirectional handles for proper edge animation
@@ -72,7 +87,7 @@ const CustomBidirectionalNode = React.memo(({ data, isConnectable }) => {
   const dimensions = getNodeDimensions();
 
   // Dynamic styles based on state with glass-morphism
-  const isAIAgent = data.label === 'Plus AI' && tier === 1;
+  const isAIAgent = (data.label === 'Plus AI' || data.label === 'Student Guide' || data.label === 'Resident Guide') && tier === 1;
 
   const nodeStyle = {
     background: isAIAgent
@@ -211,8 +226,8 @@ const CustomBidirectionalNode = React.memo(({ data, isConnectable }) => {
             </>
           )}
 
-          {/* Plus AI: needs all handles for bidirectional flow and tier 2 connections */}
-          {(data.label === 'Plus AI') && (
+          {/* Plus AI / Student Guide / Resident Guide: needs all handles for bidirectional flow and tier 2 connections */}
+          {(data.label === 'Plus AI' || data.label === 'Student Guide' || data.label === 'Resident Guide') && (
             <>
               {/* Horizontal handles for tier 1 connections */}
               <Handle
@@ -323,10 +338,10 @@ const CustomBidirectionalNode = React.memo(({ data, isConnectable }) => {
         // Tier 1: Vertical layout with icon on top
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', justifyContent: 'center' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '32px' }}>
-            {label === 'Plus AI' ? (
+            {icon === 'orchestrator' || label === 'Plus AI' ? (
               <img
                 src={plusIcon}
-                alt="Plus AI"
+                alt={label}
                 style={{
                   width: '32px',
                   height: '32px',
@@ -382,12 +397,14 @@ const CustomBidirectionalNode = React.memo(({ data, isConnectable }) => {
               animation: 'fadeInOut 0.5s ease-in-out',
               lineHeight: '1.2',
               maxWidth: '90%',
-              maxHeight: '19px',  // Approximately 2 lines with 8px font and 1.2 line-height
+              maxHeight: '24px',  // Increased to accommodate 2 lines with 8px font and 1.2 line-height
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               display: '-webkit-box',
               WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical'
+              WebkitBoxOrient: 'vertical',
+              wordWrap: 'break-word',
+              whiteSpace: 'normal'
             }}>
               {nodeMessage}
             </div>
@@ -397,7 +414,7 @@ const CustomBidirectionalNode = React.memo(({ data, isConnectable }) => {
         // Tier 3 tools: Vertical layout with icon and label, both left-aligned (same padding as tier 2)
         <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', padding: '8px 10px', gap: '4px' }}>
           {/* Icon at top, left-aligned */}
-          {fullName === 'DXP API' ? (
+          {(icon === 'SC25_PLUS_DXP' || fullName === 'DXP API') ? (
             <img
               src={dxpLogo}
               alt="DXP"
@@ -407,10 +424,20 @@ const CustomBidirectionalNode = React.memo(({ data, isConnectable }) => {
                 objectFit: 'contain'
               }}
             />
-          ) : (fullName === 'CiA Services' || fullName === 'Email System') ? (
+          ) : (icon === 'SC25_PLUS_CiA' || fullName === 'CiA Services' || fullName === 'Email System') ? (
             <img
               src={ciaLogo}
               alt="CiA"
+              style={{
+                width: '20px',
+                height: '14px',
+                objectFit: 'contain'
+              }}
+            />
+          ) : (icon === 'SC25_PLUS_3rdParty' || fullName === 'Third Party') ? (
+            <img
+              src={thirdPartyIcon}
+              alt="Third Party"
               style={{
                 width: '20px',
                 height: '14px',

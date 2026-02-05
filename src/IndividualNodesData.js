@@ -11,7 +11,7 @@ const LAYOUT_CONFIG = {
 };
 
 // Helper function for centering even number of nodes with gap in middle
-const getNodeXCentered = (index, totalNodes) => {
+const getNodeXCentered = (index) => {
   // Start position calculated so Finance (index 4) is centered at x:0
   const startX = -400;
   return startX + (index * LAYOUT_CONFIG.AGENT_SPACING);
@@ -377,3 +377,318 @@ export const initialEdges = [
   ...orchestratorToAgentEdges,
   ...agentToToolEdges
 ];
+
+// UK Showcase: Function to get nodes and edges by guide type
+export function getNodesAndEdges(guideType) {
+  if (guideType === 'student') {
+    return getStudentGuideNodesAndEdges();
+  }
+  return getResidentGuideNodesAndEdges();
+}
+
+// Student Guide Configuration (2 agents)
+function getStudentGuideNodesAndEdges() {
+  const studentAgents = [
+    { id: 'StudentManagement', label: 'SM Agent', color: COLORS.STUDENTMANAGEMENT_TEAL, x: -100 },
+    { id: 'Knowledge', label: 'KB Agent', color: COLORS.KNOWLEDGE_PURPLE, x: 100 }
+  ];
+
+  const tier1 = [
+    {
+      id: 'user',
+      type: 'customBidirectional',
+      position: { x: -165, y: LAYOUT_CONFIG.TIER_1_Y },
+      data: { label: 'User', tier: 1, icon: 'user', nodeType: 'user' }
+    },
+    {
+      id: 'orchestrator',
+      type: 'customBidirectional',
+      position: { x: 0, y: LAYOUT_CONFIG.TIER_1_Y },
+      data: { label: 'Student Guide', tier: 1, icon: 'orchestrator', nodeType: 'orchestrator' }
+    },
+    {
+      id: 'usercontext',
+      type: 'customBidirectional',
+      position: { x: 165, y: LAYOUT_CONFIG.TIER_1_Y },
+      data: { label: 'Digital Twin', tier: 1, icon: 'context', nodeType: 'usercontext' }
+    }
+  ];
+
+  const agentNodesStudent = studentAgents.map(agent => ({
+    id: agent.id,
+    type: 'customBidirectional',
+    position: { x: agent.x, y: LAYOUT_CONFIG.TIER_2_Y },
+    data: {
+      label: agent.label,
+      tier: 2,
+      icon: agent.id,
+      color: agent.color,
+      nodeType: 'agent'
+    }
+  }));
+
+  const toolNodesStudent = studentAgents.map(agent => {
+    // Determine icon and label based on agent type
+    let icon, label;
+    if (agent.id === 'StudentManagement') {
+      icon = 'SC25_PLUS_CiA';
+      label = 'Student Management';
+    } else if (agent.id === 'Knowledge') {
+      icon = 'SC25_PLUS_DXP';
+      label = 'Knowledge Base';
+    } else {
+      icon = 'tool';
+      label = 'Tools';
+    }
+
+    return {
+      id: `${agent.id}-tool`,
+      type: 'customBidirectional',
+      position: { x: agent.x, y: LAYOUT_CONFIG.TIER_3_Y },
+      data: {
+        label: label,
+        fullName: label,
+        tier: 3,
+        icon: icon,
+        color: agent.color,
+        nodeType: 'tool',
+        parentAgent: agent.id
+      }
+    };
+  });
+
+  // Calculate dynamic container width based on agent positions
+  const agentXPositions = studentAgents.map(a => a.x);
+  const minX = Math.min(...agentXPositions);
+  const maxX = Math.max(...agentXPositions);
+  const containerWidth = (maxX - minX) + 140; // Add 70px padding on each side (node width)
+
+  const groupNodesStudent = [
+    {
+      id: 'sub-agents-group',
+      type: 'group',
+      position: { x: 0, y: 60 },
+      style: {
+        width: containerWidth,
+        height: 140,
+        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%)',
+        backdropFilter: 'blur(16px) saturate(120%)',
+        border: '1px solid rgba(255, 255, 255, 0.15)',
+        borderRadius: 16,
+        zIndex: -1
+      },
+      data: { label: 'SUB-AGENTS' }
+    },
+    {
+      id: 'mcp-tools-group',
+      type: 'group',
+      position: { x: 0, y: 250 },
+      style: {
+        width: containerWidth,
+        height: 130,
+        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%)',
+        backdropFilter: 'blur(12px) saturate(110%)',
+        border: '1px solid rgba(255, 255, 255, 0.12)',
+        borderRadius: 16,
+        zIndex: -1
+      },
+      data: { label: 'ERP SERVICES' }
+    }
+  ];
+
+  const nodes = [...groupNodesStudent, ...tier1, ...agentNodesStudent, ...toolNodesStudent];
+
+  const tier1EdgesStudent = [
+    createDirectionalEdge('user', 'orchestrator', 'source-right', 'target-left', 'user-orchestrator'),
+    createDirectionalEdge('orchestrator', 'usercontext', 'source-right', 'target-left', 'orchestrator-usercontext')
+  ];
+
+  const orchestratorToAgentEdgesStudent = studentAgents.map(agent =>
+    createDirectionalEdge('orchestrator', agent.id, 'source-bottom', 'target-top', `orchestrator-${agent.id}`)
+  );
+
+  const agentToToolEdgesStudent = studentAgents.map(agent =>
+    createDirectionalEdge(agent.id, `${agent.id}-tool`, 'source-bottom', 'target-top', `${agent.id}-${agent.id}-tool`)
+  );
+
+  const edges = [...tier1EdgesStudent, ...orchestratorToAgentEdgesStudent, ...agentToToolEdgesStudent];
+
+  return { nodes, edges };
+}
+
+// Resident Guide Configuration (5 agents)
+function getResidentGuideNodesAndEdges() {
+  const residentAgents = [
+    { id: 'bincollections', label: 'Bins', color: COLORS.BINCOLLECTIONS_GREEN, x: -300 },
+    { id: 'request', label: 'WorkReq', color: COLORS.REQUEST_AMBER, x: -150 },
+    { id: 'spatial', label: 'Spatial', color: COLORS.SPATIAL_INDIGO, x: 0 },
+    { id: 'taxtransactions', label: 'Council Tax', color: COLORS.TAXTRANSACTIONS_STEEL, x: 150 },
+    { id: 'communityevents', label: 'Events', color: COLORS.COMMUNITYEVENTS_CYAN, x: 300 }
+  ];
+
+  const tier1 = [
+    {
+      id: 'user',
+      type: 'customBidirectional',
+      position: { x: -165, y: LAYOUT_CONFIG.TIER_1_Y },
+      data: { label: 'User', tier: 1, icon: 'user', nodeType: 'user' }
+    },
+    {
+      id: 'orchestrator',
+      type: 'customBidirectional',
+      position: { x: 0, y: LAYOUT_CONFIG.TIER_1_Y },
+      data: { label: 'Resident Guide', tier: 1, icon: 'orchestrator', nodeType: 'orchestrator' }
+    },
+    {
+      id: 'usercontext',
+      type: 'customBidirectional',
+      position: { x: 165, y: LAYOUT_CONFIG.TIER_1_Y },
+      data: { label: 'Digital Twin', tier: 1, icon: 'context', nodeType: 'usercontext' }
+    }
+  ];
+
+  const agentNodesResident = residentAgents.map(agent => ({
+    id: agent.id,
+    type: 'customBidirectional',
+    position: { x: agent.x, y: LAYOUT_CONFIG.TIER_2_Y },
+    data: {
+      label: agent.label,
+      tier: 2,
+      icon: agent.id,
+      color: agent.color,
+      nodeType: 'agent'
+    }
+  }));
+
+  const toolNodesResident = residentAgents.map(agent => {
+    // Determine icon and label based on agent type
+    let icon, label;
+    if (agent.id === 'bincollections') {
+      icon = 'SC25_PLUS_DXP';
+      label = 'Knowledge Base';
+    } else if (agent.id === 'communityevents') {
+      icon = 'SC25_PLUS_3rdParty';
+      label = 'Third Party';
+    } else if (agent.id === 'request') {
+      icon = 'SC25_PLUS_CiA';
+      label = 'Enterprise Asset';
+    } else if (agent.id === 'spatial') {
+      icon = 'SC25_PLUS_CiA';
+      label = 'Spatial';
+    } else if (agent.id === 'taxtransactions') {
+      icon = 'SC25_PLUS_CiA';
+      label = 'Finance System';
+    } else {
+      icon = 'tool';
+      label = 'Tools';
+    }
+
+    return {
+      id: `${agent.id}-tool`,
+      type: 'customBidirectional',
+      position: { x: agent.x, y: LAYOUT_CONFIG.TIER_3_Y },
+      data: {
+        label: label,
+        fullName: label,
+        tier: 3,
+        icon: icon,
+        color: agent.color,
+        nodeType: 'tool',
+        parentAgent: agent.id
+      }
+    };
+  });
+
+  // Calculate dynamic container width based on agent positions
+  const residentXPositions = residentAgents.map(a => a.x);
+  const residentMinX = Math.min(...residentXPositions);
+  const residentMaxX = Math.max(...residentXPositions);
+  const residentContainerWidth = (residentMaxX - residentMinX) + 140; // Add 70px padding on each side
+
+  // Separate ERP Services (first 4 agents) and Third Party (last agent - Events)
+  const erpServicesAgents = residentAgents.slice(0, 4); // Bins, WorkReq, Spatial, Council Tax
+  const thirdPartyAgents = residentAgents.slice(4, 5); // Events
+
+  // Calculate ERP Services container (first 4 tools only)
+  // These are at x positions: -300, -150, 0, 150
+  const erpXPositions = erpServicesAgents.map(a => a.x);
+  const erpMinX = Math.min(...erpXPositions); // -300
+  const erpMaxX = Math.max(...erpXPositions); // 150
+
+  // ERP container: center at -75, width 590px → extends from -370 to 220
+  // Width calculation: (150 - (-300)) + 140 padding = 450 + 140 = 590
+  const erpContainerWidth = (erpMaxX - erpMinX) + 140;
+  const erpContainerCenter = (erpMinX + erpMaxX) / 2; // -75
+
+  // Third Party container: center at 300, width 140px (matches agent node width)
+  // Extends from 230 to 370
+  const thirdPartyX = thirdPartyAgents[0].x; // 300
+  const thirdPartyContainerWidth = 140;
+
+  const groupNodesResident = [
+    {
+      id: 'sub-agents-group',
+      type: 'group',
+      position: { x: 0, y: 60 },
+      style: {
+        width: residentContainerWidth,
+        height: 140,
+        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%)',
+        backdropFilter: 'blur(16px) saturate(120%)',
+        border: '1px solid rgba(255, 255, 255, 0.15)',
+        borderRadius: 16,
+        zIndex: -1
+      },
+      data: { label: 'SUB-AGENTS' }
+    },
+    {
+      id: 'erp-services-group',
+      type: 'group',
+      position: { x: erpContainerCenter, y: 250 },
+      style: {
+        width: erpContainerWidth,
+        height: 130,
+        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%)',
+        backdropFilter: 'blur(12px) saturate(110%)',
+        border: '1px solid rgba(255, 255, 255, 0.12)',
+        borderRadius: 16,
+        zIndex: -1
+      },
+      data: { label: 'ERP SERVICES' }
+    },
+    {
+      id: 'third-party-group',
+      type: 'group',
+      position: { x: thirdPartyX, y: 250 },
+      style: {
+        width: thirdPartyContainerWidth,
+        height: 130,
+        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%)',
+        backdropFilter: 'blur(12px) saturate(110%)',
+        border: '1px solid rgba(255, 255, 255, 0.12)',
+        borderRadius: 16,
+        zIndex: -1
+      },
+      data: { label: 'EXTERNAL' }
+    }
+  ];
+
+  const nodes = [...groupNodesResident, ...tier1, ...agentNodesResident, ...toolNodesResident];
+
+  const tier1EdgesResident = [
+    createDirectionalEdge('user', 'orchestrator', 'source-right', 'target-left', 'user-orchestrator'),
+    createDirectionalEdge('orchestrator', 'usercontext', 'source-right', 'target-left', 'orchestrator-usercontext')
+  ];
+
+  const orchestratorToAgentEdgesResident = residentAgents.map(agent =>
+    createDirectionalEdge('orchestrator', agent.id, 'source-bottom', 'target-top', `orchestrator-${agent.id}`)
+  );
+
+  const agentToToolEdgesResident = residentAgents.map(agent =>
+    createDirectionalEdge(agent.id, `${agent.id}-tool`, 'source-bottom', 'target-top', `${agent.id}-${agent.id}-tool`)
+  );
+
+  const edges = [...tier1EdgesResident, ...orchestratorToAgentEdgesResident, ...agentToToolEdgesResident];
+
+  return { nodes, edges };
+}
