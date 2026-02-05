@@ -1,12 +1,16 @@
 import React from 'react';
-import Graph from './FlowGraph';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import FlowGraph from './FlowGraph';
 
 function App() {
   return (
-    <div>
-      {/* Top bar hidden */}
-      <Graph />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/student-guide" element={<FlowGraph guideType="student" />} />
+        <Route path="/resident-guide" element={<FlowGraph guideType="resident" />} />
+        <Route path="/" element={<Navigate to="/resident-guide" replace />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

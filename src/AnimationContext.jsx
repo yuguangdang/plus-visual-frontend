@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useCallback, useRef, useEffect } from 'react';
 import { getRandomMessage } from './nodeMessages';
+import { getAgentIdsForGuide } from './constants';
 
 // State-driven animation context for better control and immediate exits
 const AnimationContext = createContext(null);
@@ -12,7 +13,10 @@ export const useAnimationState = () => {
   return context;
 };
 
-export const AnimationProvider = ({ children }) => {
+export const AnimationProvider = ({ children, guideType = 'resident' }) => {
+  // Get valid agents for the guide type
+  const validAgents = getAgentIdsForGuide(guideType);
+
   // Animation phase state machine
   const [animationPhase, setAnimationPhase] = useState('idle');
   const [subPhase, setSubPhase] = useState(null);
@@ -33,6 +37,9 @@ export const AnimationProvider = ({ children }) => {
   const [nodeMessages, setNodeMessages] = useState({}); // Individual node messages
   const messageIntervals = useRef({}); // Store individual intervals for each node
   const [isSSEConnected, setIsSSEConnected] = useState(false);
+
+  // Store current intention for intention-aware messages
+  const [currentIntention, setCurrentIntention] = useState(null);
 
   // Loop control
   const [loopAgents, setLoopAgents] = useState([]);
@@ -79,7 +86,7 @@ export const AnimationProvider = ({ children }) => {
     if (!loopAgents || loopAgents.length === 0) return;
 
     switch(subPhase) {
-      case 'to_agents':
+      case 'to_agents': {
         // Activate orchestrator and individual agents
         setActiveNodes(new Set(['orchestrator', ...loopAgents]));
         setProcessingNodes(new Set(['orchestrator', ...loopAgents]));
@@ -87,8 +94,9 @@ export const AnimationProvider = ({ children }) => {
         setActiveEdges(new Set(toAgentEdges));
         setStateMessage(`Calling sub agents: ${loopAgents.join(', ')}...`);
         break;
+      }
 
-      case 'agents_to_tools':
+      case 'agents_to_tools': {
         // Activate agent tools
         const tools = loopAgents.map(agent => `${agent}-tool`);
         setActiveNodes(new Set([...loopAgents, ...tools]));
@@ -98,8 +106,9 @@ export const AnimationProvider = ({ children }) => {
         setActiveTools(new Set(loopAgents));
         setStateMessage(`Calling toolsets: ${loopAgents.join(', ')}...`);
         break;
+      }
 
-      case 'tools_return':
+      case 'tools_return': {
         // Tools returning to agents
         const returnTools = loopAgents.map(agent => `${agent}-tool`);
         setActiveNodes(new Set([...loopAgents, ...returnTools]));
@@ -109,8 +118,9 @@ export const AnimationProvider = ({ children }) => {
         setActiveEdges(new Set(fromToolEdges));
         setStateMessage('Tools returning results...');
         break;
+      }
 
-      case 'return_to_orchestrator':
+      case 'return_to_orchestrator': {
         // Agents returning to orchestrator
         setActiveNodes(new Set(['orchestrator', ...loopAgents]));
         setProcessingNodes(new Set(['orchestrator']));
@@ -118,13 +128,14 @@ export const AnimationProvider = ({ children }) => {
         setActiveEdges(new Set(fromAgentEdges));
         setStateMessage('Orchestrator coordinating...');
         break;
+      }
 
       case 'loop_complete':
         // Ready for next cycle
         setActiveNodes(new Set(['orchestrator']));
         setProcessingNodes(new Set(['orchestrator']));
         setActiveEdges(new Set());
-            setActiveTools(new Set());
+        setActiveTools(new Set());
         break;
     }
   }, [loopAgents]);
@@ -202,7 +213,7 @@ export const AnimationProvider = ({ children }) => {
       case 'intention_extracted':
         // Handle intention_extracted phase with subphases
         switch(subPhase) {
-          case 'dispatching':
+          case 'dispatching': {
             setActiveNodes(new Set(['orchestrator', ...loopAgents]));
             setProcessingNodes(new Set(['orchestrator', ...loopAgents]));
             // Set edges from orchestrator to each active agent
@@ -210,7 +221,8 @@ export const AnimationProvider = ({ children }) => {
             setActiveEdges(new Set(orchestratorToAgentEdges));
             setStateMessage(`Assigning tasks to ${loopAgents.join(', ')}...`);
             break;
-          case 'agents_processing':
+          }
+          case 'agents_processing': {
             setActiveNodes(new Set(['orchestrator', ...loopAgents]));
             setProcessingNodes(new Set(['orchestrator', ...loopAgents]));
             const agentEdges = loopAgents.map(agent => `orchestrator-${agent}`);
@@ -218,7 +230,8 @@ export const AnimationProvider = ({ children }) => {
             setStateMessage(`Coordinating agents...`);
             // Messages will be handled by the message rotation effect
             break;
-          case 'tools_active':
+          }
+          case 'tools_active': {
             // Activate individual tool nodes
             const toolNodes = loopAgents.map(agent => `${agent}-tool`);
             setActiveNodes(new Set([...loopAgents, ...toolNodes]));
@@ -230,7 +243,8 @@ export const AnimationProvider = ({ children }) => {
             setStateMessage(`Calling toolsets: ${loopAgents.join(', ')}...`);
             // Messages will be handled by the message rotation effect
             break;
-          case 'tools_returning':
+          }
+          case 'tools_returning': {
             const returnToolNodes = loopAgents.map(agent => `${agent}-tool`);
             setActiveNodes(new Set([...loopAgents, ...returnToolNodes]));
             setProcessingNodes(new Set(loopAgents));
@@ -241,7 +255,8 @@ export const AnimationProvider = ({ children }) => {
             setStateMessage('Tools returning results...');
             // Messages will be handled by the message rotation effect
             break;
-          case 'returning':
+          }
+          case 'returning': {
             setActiveNodes(new Set(['orchestrator', ...loopAgents]));
             setProcessingNodes(new Set(['orchestrator']));
             // Set reverse edges from agents to orchestrator
@@ -249,6 +264,7 @@ export const AnimationProvider = ({ children }) => {
             setActiveEdges(new Set(agentToOrchestratorEdges));
             setStateMessage('Processing sub agent results...');
             break;
+          }
           default:
             handleLoopPhase(subPhase);
         }
@@ -402,20 +418,20 @@ export const AnimationProvider = ({ children }) => {
       // Set up individual message rotation for each active node
       activeNodes.forEach(nodeId => {
         if (nodeId !== 'orchestrator' && nodeId !== 'user' && nodeId !== 'usercontext') {
-          // Set initial message
+          // Set initial message (intention-aware)
           setNodeMessages(prev => ({
             ...prev,
-            [nodeId]: getRandomMessage(nodeId)
+            [nodeId]: getRandomMessage(nodeId, currentIntention)
           }));
 
           // Random interval between 800-1500ms for variety
           const randomInterval = 800 + Math.random() * 700;
 
-          // Set up rotation for this specific node
+          // Set up rotation for this specific node (intention-aware)
           messageIntervals.current[nodeId] = setInterval(() => {
             setNodeMessages(prev => ({
               ...prev,
-              [nodeId]: getRandomMessage(nodeId)
+              [nodeId]: getRandomMessage(nodeId, currentIntention)
             }));
           }, randomInterval);
         }
@@ -448,17 +464,19 @@ export const AnimationProvider = ({ children }) => {
     }, 100);
   }, [resetAll]);
 
-  const startIntentionExtractedSequence = useCallback((agents) => {
+  const startIntentionExtractedSequence = useCallback((agents, intention = null) => {
+    // Store the intention for message context
+    setCurrentIntention(intention);
+
     // Clear previous animation timer to start new sequence
     if (animationTimerRef.current) {
       clearTimeout(animationTimerRef.current);
       animationTimerRef.current = null;
     }
 
-    // Validate agents - filter out non-sub-agent values like 'orchestrator'
-    const validAgents = agents.filter(agent =>
-      ['mytask', 'workrequest', 'analytics', 'requisition',
-       'recruitment', 'leave', 'workorder', 'knowledge', 'email', 'finance'].includes(agent)
+    // Validate agents - filter to only agents valid for this guide type (excluding 'orchestrator')
+    const filteredAgents = agents.filter(agent =>
+      validAgents.includes(agent) && agent !== 'orchestrator'
     );
 
     // Wait 1.5 seconds for remaining chat_started animation
@@ -473,16 +491,16 @@ export const AnimationProvider = ({ children }) => {
       }
 
       // Only start loop if we have valid sub-agents
-      if (validAgents.length > 0) {
-        console.log('[AnimationContext] Starting intention_extracted phase from chat_started');
-        setLoopAgents(validAgents);
+      if (filteredAgents.length > 0) {
+        console.log('[AnimationContext] Starting intention_extracted phase from chat_started with intention:', intention);
+        setLoopAgents(filteredAgents);
         setIsLooping(true);
         setAnimationPhase('intention_extracted');
         setSubPhase('dispatching');
       }
       // Otherwise stay in current phase
     }, 1500); // 1.5-second delay to ensure chat_started completes
-  }, []); // No dependencies - callback remains stable
+  }, [validAgents]); // Add validAgents dependency
 
   const startChatCompletedSequence = useCallback(() => {
     console.log('[AnimationContext] FORCE STOP: chat_completed received, stopping all animations');

@@ -29,7 +29,7 @@ export const COLORS = {
   ORCHESTRATOR_PURPLE: COLOR_PALETTE.DARK_PURPLE, // Plus AI Orchestrator
   USER_CONTEXT_PINK: COLOR_PALETTE.DARK_ROSE,    // User Context (rose color)
 
-  // Tier 2 - Agent Nodes
+  // Tier 2 - Agent Nodes (Legacy)
   MYTASK_ORANGE: COLOR_PALETTE.DARK_TEAL,         // MyTask Agent (teal)
   WORKREQUEST_YELLOW: COLOR_PALETTE.DARK_AMBER,   // WorkRequest Agent
   ANALYTICS_GREEN: COLOR_PALETTE.DARK_GREEN,      // Analytics Agent
@@ -39,6 +39,16 @@ export const COLORS = {
   LEAVE_CYAN: COLOR_PALETTE.DARK_CYAN,            // Leave Agent
   EMAIL_RED: COLOR_PALETTE.DARK_BROWN,            // Email Agent
   KNOWLEDGE_PURPLE: COLOR_PALETTE.MEDIUM_PURPLE,  // Knowledge Agent
+
+  // UK Showcase - Student Guide Agents
+  STUDENTMANAGEMENT_TEAL: COLOR_PALETTE.DARK_TEAL,  // Student Management
+
+  // UK Showcase - Resident Guide Agents
+  BINCOLLECTIONS_GREEN: COLOR_PALETTE.DARK_GREEN,     // Bin Collections
+  COMMUNITYEVENTS_CYAN: COLOR_PALETTE.DARK_CYAN,      // Community Events
+  REQUEST_AMBER: COLOR_PALETTE.DARK_AMBER,            // Request Management
+  SPATIAL_INDIGO: COLOR_PALETTE.DARK_INDIGO,          // Spatial
+  TAXTRANSACTIONS_STEEL: COLOR_PALETTE.DARK_STEEL,    // Council Tax
 
   // Tier 3 - Tool Nodes
   TOOLS_GRAY: COLOR_PALETTE.MEDIUM_SLATE,         // Legacy gray

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Icons" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 90">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <!-- Graduation cap (mortarboard) -->
+  <path class="cls-1" d="M45,20L10,35l10,5v15c0,5.523,11.193,10,25,10s25-4.477,25-10V40l5-2.5v17.5h5V35L45,20z M45,57.5c-10.457,0-17.5-3.134-17.5-5V43.75L45,50l17.5-6.25V52.5C62.5,54.366,55.457,57.5,45,57.5z"/>
+  <!-- Student profile (head and shoulders) -->
+  <circle class="cls-1" cx="45" cy="70" r="6"/>
+  <path class="cls-1" d="M45,78c-5.523,0-10,3.358-10,7.5v1.5h20v-1.5C55,81.358,50.523,78,45,78z"/>
+</svg>

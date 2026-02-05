@@ -14,7 +14,7 @@ import CustomGroupNode from './CustomGroupNode';
 import CustomDirectionalEdge from './CustomDirectionalEdge';
 import SSEIndicator from './SSEIndicator';
 
-import { initialNodes, initialEdges } from './IndividualNodesData';
+import { getNodesAndEdges } from './IndividualNodesData';
 import { usePlusSSE } from './usePlusSSE';
 import { AnimationProvider, useAnimationState } from './AnimationContext';
 import {
@@ -43,14 +43,19 @@ const truncateMessage = (message, maxLength = 50) => {
 };
 
 // Inner component that uses animation context
-function FlowGraphInner() {
+function FlowGraphInner({ guideType }) {
     const { activeNodes, processingNodes, activeEdges, activeTools, stateMessage, userMessage, nodeMessages, animationPhase, subPhase, isSSEConnected } = useAnimationState();
     const { fitView, setCenter, fitBounds } = useReactFlow();
     const [isReady, setIsReady] = useState(false);
 
+    // Get nodes and edges based on guide type
+    const { nodes: guideNodes, edges: guideEdges } = useMemo(() => {
+        return getNodesAndEdges(guideType);
+    }, [guideType]);
+
     // Apply animation state to nodes
     const animatedNodes = useMemo(() => {
-        return initialNodes.map(node => {
+        return guideNodes.map(node => {
             // Check if this is an active agent or tool
             const isActive = activeNodes.has(node.id) ||
                             (node.data.nodeType === 'tool' && activeTools.has(node.data.parentAgent));
@@ -99,11 +104,12 @@ function FlowGraphInner() {
                 }
             };
         });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeNodes, processingNodes, activeTools, stateMessage, userMessage, nodeMessages, animationPhase, subPhase]);
 
     // Apply animation state to edges
     const animatedEdges = useMemo(() => {
-        return initialEdges.map(edge => {
+        return guideEdges.map(edge => {
             // Check for forward, reverse, or bidirectional activation
             const isForward = activeEdges.has(edge.id);
             const isReverse = activeEdges.has(`${edge.id}-reverse`);
@@ -124,7 +130,7 @@ function FlowGraphInner() {
             let activeColor = COLORS.EDGE_ACTIVE_GREEN; // default
             if (isActive) {
                 // Find the source node to get its color
-                const sourceNode = initialNodes.find(n => n.id === edge.source);
+                const sourceNode = guideNodes.find(n => n.id === edge.source);
                 if (sourceNode && sourceNode.data && sourceNode.data.color) {
                     activeColor = sourceNode.data.color;
                 }
@@ -142,6 +148,7 @@ function FlowGraphInner() {
                 }
             };
         });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeEdges]);
 
     const [nodes, setNodes] = useNodesState(animatedNodes);
@@ -227,8 +234,19 @@ function FlowGraphInner() {
                         NODE_POSITIONS[id] && id !== 'orchestrator' && id !== 'user' && id !== 'usercontext'
                     );
 
-                    if (activeAgentNodes.length > 0) {
-                        // Calculate bounds including tools (adjusted for nodeOrigin=[0.5, 0.5])
+                    if (activeAgentNodes.length === 1) {
+                        // Single agent + single tool: focus on the specific tool node
+                        const agentId = activeAgentNodes[0];
+                        const toolId = `${agentId}-tool`;
+                        const toolPosition = NODE_POSITIONS[toolId];
+
+                        if (toolPosition) {
+                            targetPosition = toolPosition;
+                            targetZoom = ZOOM_LEVELS.FOCUSED_VIEW;
+                            duration = DURATIONS.NORMAL;
+                        }
+                    } else if (activeAgentNodes.length > 1) {
+                        // Multiple agents + tools: frame all together using fitBounds
                         const agentAndToolPositions = [
                             ...activeAgentNodes.map(id => NODE_POSITIONS[id]),
                             ...activeAgentNodes.map(id => NODE_POSITIONS[`${id}-tool`]).filter(Boolean)
@@ -240,13 +258,32 @@ function FlowGraphInner() {
                             width: Math.max(...agentAndToolPositions.map(pos => pos.x)) -
                                    Math.min(...agentAndToolPositions.map(pos => pos.x)) + 110,
                             height: Math.max(...agentAndToolPositions.map(pos => pos.y)) -
-                                    Math.min(...agentAndToolPositions.map(pos => pos.y)) + 90
+                                    Math.min(...agentAndToolPositions.map(pos => pos.y)) + 110
                         };
-                        fitBounds(bounds, { padding: 0.04, duration: DURATIONS.NORMAL });
+                        fitBounds(bounds, { padding: 0.08, duration: DURATIONS.NORMAL });
                     }
                 } else if (subPhase === 'tools_returning') {
-                    // Keep showing agents and tools
-                    // Same as tools_active
+                    // Move camera back up to agent tier (tier 2)
+                    const activeAgentNodes = Array.from(activeNodes).filter(id =>
+                        NODE_POSITIONS[id] && id !== 'orchestrator' && id !== 'user' && id !== 'usercontext'
+                    );
+
+                    if (activeAgentNodes.length === 1) {
+                        // Single agent: focus on it
+                        targetPosition = NODE_POSITIONS[activeAgentNodes[0]];
+                        targetZoom = ZOOM_LEVELS.FOCUSED_VIEW;
+                        duration = DURATIONS.NORMAL;
+                    } else if (activeAgentNodes.length > 1) {
+                        // Multiple agents: frame them together
+                        const bounds = {
+                            x: Math.min(...activeAgentNodes.map(id => NODE_POSITIONS[id].x)) - 55,
+                            y: Math.min(...activeAgentNodes.map(id => NODE_POSITIONS[id].y)) - 55,
+                            width: Math.max(...activeAgentNodes.map(id => NODE_POSITIONS[id].x)) -
+                                   Math.min(...activeAgentNodes.map(id => NODE_POSITIONS[id].x)) + 110,
+                            height: 90
+                        };
+                        fitBounds(bounds, { padding: 0, duration: DURATIONS.NORMAL });
+                    }
                 } else if (subPhase === 'returning') {
                     // Pan back up to orchestrator
                     targetPosition = NODE_POSITIONS.orchestrator;
@@ -285,10 +322,11 @@ function FlowGraphInner() {
                 duration
             });
         }
-    }, [animationPhase, subPhase, setCenter]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [animationPhase, subPhase]);
 
     // Initialize SSE connection
-    usePlusSSE();
+    usePlusSSE(guideType);
 
     // Handle node changes
     const onNodesChange = useCallback((changes) => {
@@ -351,11 +389,11 @@ function FlowGraphInner() {
 }
 
 // Main component with ReactFlow provider
-function FlowGraph() {
+function FlowGraph({ guideType = 'resident' }) {
     return (
-        <AnimationProvider>
+        <AnimationProvider guideType={guideType}>
             <ReactFlowProvider>
-                <FlowGraphInner />
+                <FlowGraphInner guideType={guideType} />
             </ReactFlowProvider>
         </AnimationProvider>
     );

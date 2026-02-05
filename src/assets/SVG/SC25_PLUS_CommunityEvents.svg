@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Icons" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 90">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <path class="cls-1" d="M67.5,15v-7.5h-7.5V15h-30v-7.5h-7.5V15C16.716,15,7.5,24.216,7.5,35.5v37.5c0,4.142,3.358,7.5,7.5,7.5h60c4.142,0,7.5-3.358,7.5-7.5v-37.5C82.5,24.216,73.284,15,67.5,15z M15,37.5h60v35h-60V37.5z"/>
+  <circle class="cls-1" cx="30" cy="52.5" r="3.75"/>
+  <circle class="cls-1" cx="45" cy="52.5" r="3.75"/>
+  <circle class="cls-1" cx="60" cy="52.5" r="3.75"/>
+</svg>

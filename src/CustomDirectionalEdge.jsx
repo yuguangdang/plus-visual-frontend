@@ -10,9 +10,7 @@ const CustomDirectionalEdge = ({
   sourcePosition,
   targetPosition,
   data,
-  style = {},
-  markerEnd,
-  markerStart
+  style = {}
 }) => {
   // Get the path for the edge
   const [edgePath, labelX, labelY] = getBezierPath({
@@ -25,7 +23,6 @@ const CustomDirectionalEdge = ({
   });
 
   // Determine if this edge is active in forward or reverse direction
-  const baseId = id.replace('-reverse', '');
   const isForward = data?.direction === 'forward';
   const isReverse = data?.direction === 'reverse';
   const isBidirectional = data?.direction === 'bidirectional';
