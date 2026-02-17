@@ -44,11 +44,15 @@ export const COLORS = {
   STUDENTMANAGEMENT_TEAL: COLOR_PALETTE.DARK_TEAL,  // Student Management
 
   // UK Showcase - Resident Guide Agents
-  BINCOLLECTIONS_GREEN: COLOR_PALETTE.DARK_GREEN,     // Bin Collections
-  COMMUNITYEVENTS_CYAN: COLOR_PALETTE.DARK_CYAN,      // Community Events
+  // ERP SERVICES agents
+  KNOWLEDGE_RESIDENT_PURPLE: COLOR_PALETTE.MEDIUM_PURPLE, // Knowledge Base Search
+  ECM_ORANGE: COLOR_PALETTE.DARK_ORANGE,              // ECM / Content Ingestion
   REQUEST_AMBER: COLOR_PALETTE.DARK_AMBER,            // Request Management
   SPATIAL_INDIGO: COLOR_PALETTE.DARK_INDIGO,          // Spatial
-  TAXTRANSACTIONS_STEEL: COLOR_PALETTE.DARK_STEEL,    // Council Tax
+  // EXTERNAL agents
+  WEBAGENT_GOLD: COLOR_PALETTE.DARK_GOLD,             // Web Agent (Third Party - Websites)
+  BINCOLLECTIONS_GREEN: COLOR_PALETTE.DARK_GREEN,     // Bins (Third Party - Waste System)
+  TAXTRANSACTIONS_STEEL: COLOR_PALETTE.DARK_STEEL,    // Council Tax (Third Party - Revs & Bens)
 
   // Tier 3 - Tool Nodes
   TOOLS_GRAY: COLOR_PALETTE.MEDIUM_SLATE,         // Legacy gray

@@ -20,6 +20,10 @@ import requestIcon from './assets/SVG/SC25_PLUS_RequestManagement.svg';
 import spatialIcon from './assets/SVG/SC25_PLUS_Spatial.svg';
 import counciltaxIcon from './assets/SVG/SC25_PLUS_CouncilTax.svg';
 import thirdPartyIcon from './assets/SVG/SC25_PLUS_3rdParty.svg';
+import ecmIcon from './assets/SVG/SC25_PLUS_ECM.svg';
+import webagentIcon from './assets/SVG/SC25_PLUS_WebAgent.svg';
+import wasteSystemIcon from './assets/SVG/SC25_PLUS_WasteSystem.svg';
+import revsBensIcon from './assets/SVG/SC25_PLUS_RevsBens.svg';
 
 // Inline Finance SVG icon (temporary until asset is provided)
 const FinanceIcon = () => (
@@ -52,7 +56,9 @@ const tier2IconMap = {
   'communityevents': communityeventsIcon,
   'request': requestIcon,
   'spatial': spatialIcon,
-  'taxtransactions': counciltaxIcon
+  'taxtransactions': counciltaxIcon,
+  'ecm': ecmIcon,
+  'webagent': webagentIcon
 };
 
 // Custom node component with bidirectional handles for proper edge animation
@@ -438,6 +444,26 @@ const CustomBidirectionalNode = React.memo(({ data, isConnectable }) => {
             <img
               src={thirdPartyIcon}
               alt="Third Party"
+              style={{
+                width: '20px',
+                height: '14px',
+                objectFit: 'contain'
+              }}
+            />
+          ) : icon === 'SC25_PLUS_WasteSystem' ? (
+            <img
+              src={wasteSystemIcon}
+              alt="Waste System"
+              style={{
+                width: '20px',
+                height: '14px',
+                objectFit: 'contain'
+              }}
+            />
+          ) : icon === 'SC25_PLUS_RevsBens' ? (
+            <img
+              src={revsBensIcon}
+              alt="Revs & Bens"
               style={{
                 width: '20px',
                 height: '14px',

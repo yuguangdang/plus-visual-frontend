@@ -516,33 +516,43 @@ function getStudentGuideNodesAndEdges() {
   return { nodes, edges };
 }
 
-// Resident Guide Configuration (5 agents)
+// Resident Guide Configuration (7 agents) - Aligned with Presenter Spreadsheet
 function getResidentGuideNodesAndEdges() {
-  const residentAgents = [
-    { id: 'bincollections', label: 'Bins', color: COLORS.BINCOLLECTIONS_GREEN, x: -300 },
-    { id: 'request', label: 'WorkReq', color: COLORS.REQUEST_AMBER, x: -150 },
-    { id: 'spatial', label: 'Spatial', color: COLORS.SPATIAL_INDIGO, x: 0 },
-    { id: 'taxtransactions', label: 'Council Tax', color: COLORS.TAXTRANSACTIONS_STEEL, x: 150 },
-    { id: 'communityevents', label: 'Events', color: COLORS.COMMUNITYEVENTS_CYAN, x: 300 }
+  // ERP SERVICES agents (internal systems) - 4 agents
+  const erpAgents = [
+    { id: 'knowledge', label: 'Knowledge', color: COLORS.KNOWLEDGE_RESIDENT_PURPLE, x: -225 },
+    { id: 'ecm', label: 'ECM', color: COLORS.ECM_ORANGE, x: -75 },
+    { id: 'request', label: 'WorkReq', color: COLORS.REQUEST_AMBER, x: 75 },
+    { id: 'spatial', label: 'Spatial', color: COLORS.SPATIAL_INDIGO, x: 225 }
   ];
+
+  // EXTERNAL agents (third party systems) - 3 agents
+  const externalAgents = [
+    { id: 'webagent', label: 'Web Agent', color: COLORS.WEBAGENT_GOLD, x: 375 },
+    { id: 'bincollections', label: 'Bins', color: COLORS.BINCOLLECTIONS_GREEN, x: 525 },
+    { id: 'taxtransactions', label: 'Council Tax', color: COLORS.TAXTRANSACTIONS_STEEL, x: 675 }
+  ];
+
+  // Combined agents array
+  const residentAgents = [...erpAgents, ...externalAgents];
 
   const tier1 = [
     {
       id: 'user',
       type: 'customBidirectional',
-      position: { x: -165, y: LAYOUT_CONFIG.TIER_1_Y },
+      position: { x: 0, y: LAYOUT_CONFIG.TIER_1_Y },
       data: { label: 'User', tier: 1, icon: 'user', nodeType: 'user' }
     },
     {
       id: 'orchestrator',
       type: 'customBidirectional',
-      position: { x: 0, y: LAYOUT_CONFIG.TIER_1_Y },
+      position: { x: 225, y: LAYOUT_CONFIG.TIER_1_Y },
       data: { label: 'Resident Guide', tier: 1, icon: 'orchestrator', nodeType: 'orchestrator' }
     },
     {
       id: 'usercontext',
       type: 'customBidirectional',
-      position: { x: 165, y: LAYOUT_CONFIG.TIER_1_Y },
+      position: { x: 450, y: LAYOUT_CONFIG.TIER_1_Y },
       data: { label: 'Digital Twin', tier: 1, icon: 'context', nodeType: 'usercontext' }
     }
   ];
@@ -561,23 +571,29 @@ function getResidentGuideNodesAndEdges() {
   }));
 
   const toolNodesResident = residentAgents.map(agent => {
-    // Determine icon and label based on agent type
+    // Determine icon and label based on agent type - aligned with spreadsheet
     let icon, label;
-    if (agent.id === 'bincollections') {
+    if (agent.id === 'knowledge') {
       icon = 'SC25_PLUS_DXP';
       label = 'Knowledge Base';
-    } else if (agent.id === 'communityevents') {
-      icon = 'SC25_PLUS_3rdParty';
-      label = 'Third Party';
+    } else if (agent.id === 'ecm') {
+      icon = 'SC25_PLUS_CiA';
+      label = 'Content Mgmt';
     } else if (agent.id === 'request') {
       icon = 'SC25_PLUS_CiA';
-      label = 'Enterprise Asset';
+      label = 'Request Mgmt';
     } else if (agent.id === 'spatial') {
       icon = 'SC25_PLUS_CiA';
       label = 'Spatial';
+    } else if (agent.id === 'webagent') {
+      icon = 'SC25_PLUS_3rdParty';
+      label = 'Web Search';
+    } else if (agent.id === 'bincollections') {
+      icon = 'SC25_PLUS_WasteSystem';
+      label = 'Waste System';
     } else if (agent.id === 'taxtransactions') {
-      icon = 'SC25_PLUS_CiA';
-      label = 'Finance System';
+      icon = 'SC25_PLUS_RevsBens';
+      label = 'Revs & Bens';
     } else {
       icon = 'tool';
       label = 'Tools';
@@ -599,37 +615,32 @@ function getResidentGuideNodesAndEdges() {
     };
   });
 
-  // Calculate dynamic container width based on agent positions
+  // Calculate dynamic container width based on all agent positions
   const residentXPositions = residentAgents.map(a => a.x);
   const residentMinX = Math.min(...residentXPositions);
   const residentMaxX = Math.max(...residentXPositions);
   const residentContainerWidth = (residentMaxX - residentMinX) + 140; // Add 70px padding on each side
+  const residentContainerCenter = (residentMinX + residentMaxX) / 2;
 
-  // Separate ERP Services (first 4 agents) and Third Party (last agent - Events)
-  const erpServicesAgents = residentAgents.slice(0, 4); // Bins, WorkReq, Spatial, Council Tax
-  const thirdPartyAgents = residentAgents.slice(4, 5); // Events
+  // ERP Services container (first 4 agents: knowledge, ecm, request, spatial)
+  const erpXPositions = erpAgents.map(a => a.x);
+  const erpMinX = Math.min(...erpXPositions); // -225
+  const erpMaxX = Math.max(...erpXPositions); // 225
+  const erpContainerWidth = (erpMaxX - erpMinX) + 140; // 450 + 140 = 590
+  const erpContainerCenter = (erpMinX + erpMaxX) / 2; // 0
 
-  // Calculate ERP Services container (first 4 tools only)
-  // These are at x positions: -300, -150, 0, 150
-  const erpXPositions = erpServicesAgents.map(a => a.x);
-  const erpMinX = Math.min(...erpXPositions); // -300
-  const erpMaxX = Math.max(...erpXPositions); // 150
-
-  // ERP container: center at -75, width 590px → extends from -370 to 220
-  // Width calculation: (150 - (-300)) + 140 padding = 450 + 140 = 590
-  const erpContainerWidth = (erpMaxX - erpMinX) + 140;
-  const erpContainerCenter = (erpMinX + erpMaxX) / 2; // -75
-
-  // Third Party container: center at 300, width 140px (matches agent node width)
-  // Extends from 230 to 370
-  const thirdPartyX = thirdPartyAgents[0].x; // 300
-  const thirdPartyContainerWidth = 140;
+  // External container (last 3 agents: webagent, bincollections, taxtransactions)
+  const externalXPositions = externalAgents.map(a => a.x);
+  const externalMinX = Math.min(...externalXPositions); // 375
+  const externalMaxX = Math.max(...externalXPositions); // 675
+  const externalContainerWidth = (externalMaxX - externalMinX) + 140; // 300 + 140 = 440
+  const externalContainerCenter = (externalMinX + externalMaxX) / 2; // 525
 
   const groupNodesResident = [
     {
       id: 'sub-agents-group',
       type: 'group',
-      position: { x: 0, y: 60 },
+      position: { x: residentContainerCenter, y: 60 },
       style: {
         width: residentContainerWidth,
         height: 140,
@@ -657,11 +668,11 @@ function getResidentGuideNodesAndEdges() {
       data: { label: 'ERP SERVICES' }
     },
     {
-      id: 'third-party-group',
+      id: 'external-group',
       type: 'group',
-      position: { x: thirdPartyX, y: 250 },
+      position: { x: externalContainerCenter, y: 250 },
       style: {
-        width: thirdPartyContainerWidth,
+        width: externalContainerWidth,
         height: 130,
         background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%)',
         backdropFilter: 'blur(12px) saturate(110%)',
