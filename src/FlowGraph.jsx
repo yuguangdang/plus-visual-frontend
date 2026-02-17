@@ -19,7 +19,8 @@ import { usePlusSSE } from './usePlusSSE';
 import { AnimationProvider, useAnimationState } from './AnimationContext';
 import {
     REACT_FLOW_CONFIG,
-    CAMERA_ANIMATION_CONFIG
+    CAMERA_ANIMATION_CONFIG,
+    getNodePositionsForGuide
 } from './constants';
 import { FLOW_CONTAINER_STYLES } from './styles';
 import { COLORS, EDGE_STYLES } from './colors';
@@ -172,7 +173,8 @@ function FlowGraphInner({ guideType }) {
     useEffect(() => {
         if (!animationPhase || animationPhase === 'idle') return;
 
-        const { ZOOM_LEVELS, DURATIONS, NODE_POSITIONS } = CAMERA_ANIMATION_CONFIG;
+        const { ZOOM_LEVELS, DURATIONS } = CAMERA_ANIMATION_CONFIG;
+        const NODE_POSITIONS = getNodePositionsForGuide(guideType);
         let targetPosition = null;
         let targetZoom = ZOOM_LEVELS.OVERVIEW;
         let duration = DURATIONS.NORMAL;
@@ -323,7 +325,7 @@ function FlowGraphInner({ guideType }) {
             });
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [animationPhase, subPhase]);
+    }, [animationPhase, subPhase, guideType]);
 
     // Initialize SSE connection
     usePlusSSE(guideType);

@@ -15,7 +15,7 @@ export const AGENT_NODE_IDS = [
 
 // UK Showcase Agent IDs
 export const STUDENT_AGENT_IDS = ['StudentManagement', 'Knowledge'];
-export const RESIDENT_AGENT_IDS = ['bincollections', 'communityevents', 'request', 'spatial', 'taxtransactions'];
+export const RESIDENT_AGENT_IDS = ['knowledge', 'ecm', 'request', 'spatial', 'webagent', 'bincollections', 'taxtransactions'];
 
 export function getAgentIdsForGuide(guideType) {
   return guideType === 'student' ? STUDENT_AGENT_IDS : RESIDENT_AGENT_IDS;
@@ -48,49 +48,50 @@ export const CAMERA_ANIMATION_CONFIG = {
     SLOW: 1200
   },
 
-  // Node positions - define them here directly for camera tracking
-  NODE_POSITIONS: {
-    // Tier 1
-    user: { x: -165, y: -140 },
-    orchestrator: { x: 0, y: -140 },
-    usercontext: { x: 165, y: -140 },
-    // Tier 2 - Agents (9 nodes, Finance centered at x=0, aligned with Plus AI)
-    knowledge: { x: -400, y: 60 },
-    mytask: { x: -300, y: 60 },
-    leave: { x: -200, y: 60 },
-    analytics: { x: -100, y: 60 },
-    finance: { x: 0, y: 60 },
-    workrequest: { x: 100, y: 60 },
-    requisition: { x: 200, y: 60 },
-    recruitment: { x: 300, y: 60 },
-    email: { x: 400, y: 60 },
-    // Student Guide agents
-    StudentManagement: { x: -100, y: 60 },
-    Knowledge: { x: 100, y: 60 },
-    // Resident Guide agents
-    bincollections: { x: -300, y: 60 },
-    request: { x: -150, y: 60 },
-    spatial: { x: 0, y: 60 },
-    taxtransactions: { x: 150, y: 60 },
-    communityevents: { x: 300, y: 60 },
-    // Tier 3 - Tools (same x as agents, different y)
-    'knowledge-tool': { x: -400, y: 260 },
-    'mytask-tool': { x: -300, y: 260 },
-    'leave-tool': { x: -200, y: 260 },
-    'analytics-tool': { x: -100, y: 260 },
-    'finance-tool': { x: 0, y: 260 },
-    'workrequest-tool': { x: 100, y: 260 },
-    'requisition-tool': { x: 200, y: 260 },
-    'recruitment-tool': { x: 300, y: 260 },
-    'email-tool': { x: 400, y: 260 },
-    // Student Guide tools
-    'StudentManagement-tool': { x: -100, y: 260 },
-    'Knowledge-tool': { x: 100, y: 260 },
-    // Resident Guide tools
-    'bincollections-tool': { x: -300, y: 260 },
-    'request-tool': { x: -150, y: 260 },
-    'spatial-tool': { x: 0, y: 260 },
-    'taxtransactions-tool': { x: 150, y: 260 },
-    'communityevents-tool': { x: 300, y: 260 }
-  }
+  // Node positions - must match IndividualNodesData.js for camera tracking
+  // Use getNodePositionsForGuide() function below for guide-specific positions
+  NODE_POSITIONS: {} // Placeholder - use getNodePositionsForGuide()
 };
+
+// Student Guide node positions
+const STUDENT_NODE_POSITIONS = {
+  // Tier 1
+  user: { x: -165, y: -140 },
+  orchestrator: { x: 0, y: -140 },
+  usercontext: { x: 165, y: -140 },
+  // Tier 2 Agents
+  StudentManagement: { x: -100, y: 60 },
+  Knowledge: { x: 100, y: 60 },
+  // Tier 3 Tools
+  'StudentManagement-tool': { x: -100, y: 260 },
+  'Knowledge-tool': { x: 100, y: 260 }
+};
+
+// Resident Guide node positions - aligned with IndividualNodesData.js
+const RESIDENT_NODE_POSITIONS = {
+  // Tier 1
+  user: { x: 0, y: -140 },
+  orchestrator: { x: 225, y: -140 },
+  usercontext: { x: 450, y: -140 },
+  // Tier 2 Agents (ERP: knowledge, ecm, request, spatial | External: webagent, bincollections, taxtransactions)
+  knowledge: { x: -225, y: 60 },
+  ecm: { x: -75, y: 60 },
+  request: { x: 75, y: 60 },
+  spatial: { x: 225, y: 60 },
+  webagent: { x: 375, y: 60 },
+  bincollections: { x: 525, y: 60 },
+  taxtransactions: { x: 675, y: 60 },
+  // Tier 3 Tools
+  'knowledge-tool': { x: -225, y: 260 },
+  'ecm-tool': { x: -75, y: 260 },
+  'request-tool': { x: 75, y: 260 },
+  'spatial-tool': { x: 225, y: 260 },
+  'webagent-tool': { x: 375, y: 260 },
+  'bincollections-tool': { x: 525, y: 260 },
+  'taxtransactions-tool': { x: 675, y: 260 }
+};
+
+// Function to get node positions for a specific guide type
+export function getNodePositionsForGuide(guideType) {
+  return guideType === 'student' ? STUDENT_NODE_POSITIONS : RESIDENT_NODE_POSITIONS;
+}
