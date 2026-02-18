@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Icons" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 90">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <!-- Learning Management System - Book with screen/laptop -->
+  <!-- Open book base -->
+  <path class="cls-1" d="M45,25c-8,0-15,2-20,5v35c5-3,12-5,20-5s15,2,20,5V30C60,27,53,25,45,25z M43,55c-6,0-11,1-15,3V33c4-2,9-3,15-3V55z M62,58c-4-2-9-3-15-3V30c6,0,11,1,15,3V58z"/>
+  <!-- Screen/display indicator on book -->
+  <rect class="cls-1" x="48" y="35" width="10" height="7" rx="1"/>
+  <rect class="cls-1" x="32" y="35" width="10" height="7" rx="1"/>
+  <!-- Play button (learning content) -->
+  <polygon class="cls-1" points="35,48 35,54 40,51"/>
+  <!-- Progress bar -->
+  <rect class="cls-1" x="48" y="48" width="10" height="2"/>
+  <rect class="cls-1" x="48" y="52" width="6" height="2"/>
+</svg>

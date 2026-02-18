@@ -14,7 +14,7 @@ export const AGENT_NODE_IDS = [
 ];
 
 // UK Showcase Agent IDs
-export const STUDENT_AGENT_IDS = ['StudentManagement', 'Knowledge'];
+export const STUDENT_AGENT_IDS = ['StudentManagement', 'LMS', 'Knowledge', 'Tasks', 'StudyPlanner', 'CourseLoop'];
 export const RESIDENT_AGENT_IDS = ['knowledge', 'ecm', 'request', 'spatial', 'webagent', 'bincollections', 'taxtransactions'];
 
 export function getAgentIdsForGuide(guideType) {
@@ -53,18 +53,26 @@ export const CAMERA_ANIMATION_CONFIG = {
   NODE_POSITIONS: {} // Placeholder - use getNodePositionsForGuide()
 };
 
-// Student Guide node positions
+// Student Guide node positions (6 agents, 120px spacing)
 const STUDENT_NODE_POSITIONS = {
-  // Tier 1
-  user: { x: -165, y: -140 },
-  orchestrator: { x: 0, y: -140 },
-  usercontext: { x: 165, y: -140 },
-  // Tier 2 Agents
-  StudentManagement: { x: -100, y: 60 },
-  Knowledge: { x: 100, y: 60 },
+  // Tier 1 (centered above 6 agents)
+  user: { x: -60, y: -140 },
+  orchestrator: { x: 120, y: -140 },
+  usercontext: { x: 300, y: -140 },
+  // Tier 2 Agents (6 agents, 120px spacing, centered)
+  StudentManagement: { x: -180, y: 60 },
+  LMS: { x: -60, y: 60 },
+  Knowledge: { x: 60, y: 60 },
+  Tasks: { x: 180, y: 60 },
+  StudyPlanner: { x: 300, y: 60 },
+  CourseLoop: { x: 420, y: 60 },
   // Tier 3 Tools
-  'StudentManagement-tool': { x: -100, y: 260 },
-  'Knowledge-tool': { x: 100, y: 260 }
+  'StudentManagement-tool': { x: -180, y: 260 },
+  'LMS-tool': { x: -60, y: 260 },
+  'Knowledge-tool': { x: 60, y: 260 },
+  'Tasks-tool': { x: 180, y: 260 },
+  'StudyPlanner-tool': { x: 300, y: 260 },
+  'CourseLoop-tool': { x: 420, y: 260 }
 };
 
 // Resident Guide node positions - aligned with IndividualNodesData.js

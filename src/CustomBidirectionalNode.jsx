@@ -24,6 +24,10 @@ import ecmIcon from './assets/SVG/SC25_PLUS_ECM.svg';
 import webagentIcon from './assets/SVG/SC25_PLUS_WebAgent.svg';
 import wasteSystemIcon from './assets/SVG/SC25_PLUS_WasteSystem.svg';
 import revsBensIcon from './assets/SVG/SC25_PLUS_RevsBens.svg';
+import lmsIcon from './assets/SVG/SC25_PLUS_LMS.svg';
+import tasksIcon from './assets/SVG/SC25_PLUS_Tasks.svg';
+import studyPlannerIcon from './assets/SVG/SC25_PLUS_StudyPlanner.svg';
+import courseLoopIcon from './assets/SVG/SC25_PLUS_CourseLoop.svg';
 
 // Inline Finance SVG icon (temporary until asset is provided)
 const FinanceIcon = () => (
@@ -58,7 +62,12 @@ const tier2IconMap = {
   'spatial': spatialIcon,
   'taxtransactions': counciltaxIcon,
   'ecm': ecmIcon,
-  'webagent': webagentIcon
+  'webagent': webagentIcon,
+  // Student Guide additional agents
+  'LMS': lmsIcon,
+  'Tasks': tasksIcon,
+  'StudyPlanner': studyPlannerIcon,
+  'CourseLoop': courseLoopIcon
 };
 
 // Custom node component with bidirectional handles for proper edge animation

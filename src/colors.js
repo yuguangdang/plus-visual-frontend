@@ -40,8 +40,13 @@ export const COLORS = {
   EMAIL_RED: COLOR_PALETTE.DARK_BROWN,            // Email Agent
   KNOWLEDGE_PURPLE: COLOR_PALETTE.MEDIUM_PURPLE,  // Knowledge Agent
 
-  // UK Showcase - Student Guide Agents
+  // UK Showcase - Student Guide Agents (6 agents)
   STUDENTMANAGEMENT_TEAL: COLOR_PALETTE.DARK_TEAL,  // Student Management
+  LMS_INDIGO: COLOR_PALETTE.DARK_INDIGO,            // Learning Management System
+  KNOWLEDGE_STUDENT_PURPLE: COLOR_PALETTE.MEDIUM_PURPLE, // Knowledge Base
+  TASKS_AMBER: COLOR_PALETTE.DARK_AMBER,            // Tasks & Workflow
+  STUDYPLANNER_GREEN: COLOR_PALETTE.DARK_GREEN,     // Study Planner
+  COURSELOOP_GOLD: COLOR_PALETTE.DARK_GOLD,         // Course Loop / Curriculum
 
   // UK Showcase - Resident Guide Agents
   // ERP SERVICES agents

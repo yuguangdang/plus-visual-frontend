@@ -386,30 +386,36 @@ export function getNodesAndEdges(guideType) {
   return getResidentGuideNodesAndEdges();
 }
 
-// Student Guide Configuration (2 agents)
+// Student Guide Configuration (6 agents) - Aligned with UK Showcase Prompts(STU).csv
 function getStudentGuideNodesAndEdges() {
+  // 6 agents for Student Guide, 120px spacing, centered layout
   const studentAgents = [
-    { id: 'StudentManagement', label: 'SM Agent', color: COLORS.STUDENTMANAGEMENT_TEAL, x: -100 },
-    { id: 'Knowledge', label: 'KB Agent', color: COLORS.KNOWLEDGE_PURPLE, x: 100 }
+    { id: 'StudentManagement', label: 'SM Agent', color: COLORS.STUDENTMANAGEMENT_TEAL, x: -180 },
+    { id: 'LMS', label: 'LMS Agent', color: COLORS.LMS_INDIGO, x: -60 },
+    { id: 'Knowledge', label: 'KB Agent', color: COLORS.KNOWLEDGE_STUDENT_PURPLE, x: 60 },
+    { id: 'Tasks', label: 'Tasks Agent', color: COLORS.TASKS_AMBER, x: 180 },
+    { id: 'StudyPlanner', label: 'Planner', color: COLORS.STUDYPLANNER_GREEN, x: 300 },
+    { id: 'CourseLoop', label: 'Course', color: COLORS.COURSELOOP_GOLD, x: 420 }
   ];
 
+  // Tier 1 positions adjusted for 6-agent layout (centered above agents)
   const tier1 = [
     {
       id: 'user',
       type: 'customBidirectional',
-      position: { x: -165, y: LAYOUT_CONFIG.TIER_1_Y },
+      position: { x: -60, y: LAYOUT_CONFIG.TIER_1_Y },
       data: { label: 'User', tier: 1, icon: 'user', nodeType: 'user' }
     },
     {
       id: 'orchestrator',
       type: 'customBidirectional',
-      position: { x: 0, y: LAYOUT_CONFIG.TIER_1_Y },
+      position: { x: 120, y: LAYOUT_CONFIG.TIER_1_Y },
       data: { label: 'Student Guide', tier: 1, icon: 'orchestrator', nodeType: 'orchestrator' }
     },
     {
       id: 'usercontext',
       type: 'customBidirectional',
-      position: { x: 165, y: LAYOUT_CONFIG.TIER_1_Y },
+      position: { x: 300, y: LAYOUT_CONFIG.TIER_1_Y },
       data: { label: 'Digital Twin', tier: 1, icon: 'context', nodeType: 'usercontext' }
     }
   ];
@@ -428,14 +434,26 @@ function getStudentGuideNodesAndEdges() {
   }));
 
   const toolNodesStudent = studentAgents.map(agent => {
-    // Determine icon and label based on agent type
+    // Determine icon and label based on agent type - aligned with spreadsheet
     let icon, label;
     if (agent.id === 'StudentManagement') {
       icon = 'SC25_PLUS_CiA';
-      label = 'Student Management';
+      label = 'Student Mgmt';
+    } else if (agent.id === 'LMS') {
+      icon = 'SC25_PLUS_CiA';
+      label = 'Learning Mgmt';
     } else if (agent.id === 'Knowledge') {
       icon = 'SC25_PLUS_DXP';
       label = 'Knowledge Base';
+    } else if (agent.id === 'Tasks') {
+      icon = 'SC25_PLUS_CiA';
+      label = 'Tasks & Workflow';
+    } else if (agent.id === 'StudyPlanner') {
+      icon = 'SC25_PLUS_CiA';
+      label = 'Study Planner';
+    } else if (agent.id === 'CourseLoop') {
+      icon = 'SC25_PLUS_CiA';
+      label = 'Course Loop';
     } else {
       icon = 'tool';
       label = 'Tools';
@@ -462,12 +480,13 @@ function getStudentGuideNodesAndEdges() {
   const minX = Math.min(...agentXPositions);
   const maxX = Math.max(...agentXPositions);
   const containerWidth = (maxX - minX) + 140; // Add 70px padding on each side (node width)
+  const containerCenter = (minX + maxX) / 2; // Center of all agents
 
   const groupNodesStudent = [
     {
       id: 'sub-agents-group',
       type: 'group',
-      position: { x: 0, y: 60 },
+      position: { x: containerCenter, y: 60 },
       style: {
         width: containerWidth,
         height: 140,
@@ -482,7 +501,7 @@ function getStudentGuideNodesAndEdges() {
     {
       id: 'mcp-tools-group',
       type: 'group',
-      position: { x: 0, y: 250 },
+      position: { x: containerCenter, y: 250 },
       style: {
         width: containerWidth,
         height: 130,
