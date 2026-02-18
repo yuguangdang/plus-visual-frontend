@@ -28,6 +28,7 @@ import lmsIcon from './assets/SVG/SC25_PLUS_LMS.svg';
 import tasksIcon from './assets/SVG/SC25_PLUS_Tasks.svg';
 import studyPlannerIcon from './assets/SVG/SC25_PLUS_StudyPlanner.svg';
 import courseLoopIcon from './assets/SVG/SC25_PLUS_CourseLoop.svg';
+import virtualLearningIcon from './assets/SVG/SC25_PLUS_VirtualLearning.svg';
 
 // Inline Finance SVG icon (temporary until asset is provided)
 const FinanceIcon = () => (
@@ -67,7 +68,8 @@ const tier2IconMap = {
   'LMS': lmsIcon,
   'Tasks': tasksIcon,
   'StudyPlanner': studyPlannerIcon,
-  'CourseLoop': courseLoopIcon
+  'CourseLoop': courseLoopIcon,
+  'VirtualLearning': virtualLearningIcon
 };
 
 // Custom node component with bidirectional handles for proper edge animation
@@ -89,7 +91,7 @@ const CustomBidirectionalNode = React.memo(({ data, isConnectable }) => {
   const getNodeDimensions = () => {
     switch (tier) {
       case 1:
-        return { width: '100px', height: '90px', fontSize: '12px' };  // Square-like format for tier 1
+        return { width: '100px', height: '90px', fontSize: '10px' };  // Square-like format for tier 1
       case 2:
         return { width: '70px', height: '70px', fontSize: '11px' };  // Square format for sub-agents
       case 3:
@@ -102,7 +104,7 @@ const CustomBidirectionalNode = React.memo(({ data, isConnectable }) => {
   const dimensions = getNodeDimensions();
 
   // Dynamic styles based on state with glass-morphism
-  const isAIAgent = (data.label === 'Plus AI' || data.label === 'Student Guide' || data.label === 'Resident Guide') && tier === 1;
+  const isAIAgent = (data.label === 'Plus AI' || data.label === 'Guide for Student' || data.label === 'Guide for Resident') && tier === 1;
 
   const nodeStyle = {
     background: isAIAgent
@@ -241,8 +243,8 @@ const CustomBidirectionalNode = React.memo(({ data, isConnectable }) => {
             </>
           )}
 
-          {/* Plus AI / Student Guide / Resident Guide: needs all handles for bidirectional flow and tier 2 connections */}
-          {(data.label === 'Plus AI' || data.label === 'Student Guide' || data.label === 'Resident Guide') && (
+          {/* Plus AI / Guide for Student / Guide for Resident: needs all handles for bidirectional flow and tier 2 connections */}
+          {(data.label === 'Plus AI' || data.label === 'Guide for Student' || data.label === 'Guide for Resident') && (
             <>
               {/* Horizontal handles for tier 1 connections */}
               <Handle
@@ -473,6 +475,16 @@ const CustomBidirectionalNode = React.memo(({ data, isConnectable }) => {
             <img
               src={revsBensIcon}
               alt="Revs & Bens"
+              style={{
+                width: '20px',
+                height: '14px',
+                objectFit: 'contain'
+              }}
+            />
+          ) : icon === 'SC25_PLUS_VirtualLearning' ? (
+            <img
+              src={virtualLearningIcon}
+              alt="Virtual Learning"
               style={{
                 width: '20px',
                 height: '14px',

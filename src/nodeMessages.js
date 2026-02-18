@@ -227,6 +227,186 @@ export const AGENT_MESSAGES = {
     "Compiling response..."
   ],
 
+  // LMS (VLE) Agent - Intention-Specific Messages
+  'LMS:student_onboarding_tasks': [
+    "Loading course materials...",
+    "Accessing learning modules...",
+    "Syncing course content...",
+    "Retrieving enrollment data...",
+    "Checking course access...",
+    "Loading onboarding content...",
+    "Preparing learning resources...",
+    "Fetching course structure...",
+    "Accessing training modules...",
+    "Loading orientation content..."
+  ],
+  'LMS:student_assessment_extension': [
+    "Accessing assessment portal...",
+    "Loading submission deadlines...",
+    "Checking assignment status...",
+    "Retrieving course deadlines...",
+    "Analyzing submission history...",
+    "Loading assessment details...",
+    "Checking extension eligibility...",
+    "Syncing deadline data...",
+    "Accessing grade records...",
+    "Processing deadline request..."
+  ],
+  'LMS:student_exam_planner': [
+    "Loading exam schedule...",
+    "Accessing course calendar...",
+    "Retrieving exam dates...",
+    "Syncing timetable data...",
+    "Loading study materials...",
+    "Accessing revision content...",
+    "Checking exam requirements...",
+    "Loading course modules...",
+    "Retrieving learning path...",
+    "Preparing exam resources..."
+  ],
+  // LMS Fallback
+  LMS: [
+    "Accessing virtual learning...",
+    "Loading course content...",
+    "Syncing learning data...",
+    "Retrieving modules...",
+    "Checking course status...",
+    "Processing request...",
+    "Loading materials...",
+    "Accessing portal...",
+    "Updating records...",
+    "Preparing content..."
+  ],
+
+  // Tasks Agent - Intention-Specific Messages
+  'Tasks:student_onboarding_tasks': [
+    "Creating onboarding tasks...",
+    "Loading task workflow...",
+    "Building task checklist...",
+    "Assigning action items...",
+    "Setting task priorities...",
+    "Creating workflow items...",
+    "Scheduling task deadlines...",
+    "Generating task list...",
+    "Processing task creation...",
+    "Initializing task workflow..."
+  ],
+  'Tasks:student_onboarding_confirm': [
+    "Confirming task selections...",
+    "Updating task status...",
+    "Finalizing task list...",
+    "Saving task preferences...",
+    "Processing confirmations...",
+    "Completing task setup...",
+    "Validating selections...",
+    "Storing task choices...",
+    "Applying task updates...",
+    "Finalizing workflow..."
+  ],
+  'Tasks:student_assessment_extension': [
+    "Creating extension task...",
+    "Updating deadline tasks...",
+    "Processing task changes...",
+    "Modifying due dates...",
+    "Adjusting task timeline...",
+    "Updating task schedule...",
+    "Processing extension tasks...",
+    "Syncing task deadlines...",
+    "Rescheduling workflow...",
+    "Applying deadline changes..."
+  ],
+  // Tasks Fallback
+  Tasks: [
+    "Processing task request...",
+    "Loading task data...",
+    "Accessing workflow...",
+    "Updating task status...",
+    "Managing assignments...",
+    "Syncing task records...",
+    "Processing workflow...",
+    "Loading task list...",
+    "Validating tasks...",
+    "Completing operation..."
+  ],
+
+  // CourseLoop (Curriculum) Agent - Intention-Specific Messages
+  'CourseLoop:student_exam_planner': [
+    "Loading curriculum data...",
+    "Accessing course structure...",
+    "Retrieving exam topics...",
+    "Mapping course content...",
+    "Loading syllabus data...",
+    "Analyzing course modules...",
+    "Checking topic coverage...",
+    "Retrieving unit details...",
+    "Loading course outline...",
+    "Syncing curriculum info..."
+  ],
+  'CourseLoop:student_study_preferences': [
+    "Analyzing course priorities...",
+    "Loading subject weights...",
+    "Checking topic difficulty...",
+    "Mapping study areas...",
+    "Prioritizing content...",
+    "Loading topic rankings...",
+    "Analyzing subject focus...",
+    "Processing preferences...",
+    "Mapping curriculum focus...",
+    "Applying study priorities..."
+  ],
+  // CourseLoop Fallback
+  CourseLoop: [
+    "Accessing curriculum...",
+    "Loading course data...",
+    "Retrieving syllabus...",
+    "Checking course structure...",
+    "Processing curriculum...",
+    "Syncing course info...",
+    "Loading modules...",
+    "Accessing content...",
+    "Analyzing structure...",
+    "Preparing data..."
+  ],
+
+  // StudyPlanner Agent - Intention-Specific Messages
+  'StudyPlanner:student_exam_planner': [
+    "Creating study schedule...",
+    "Planning revision sessions...",
+    "Building exam timetable...",
+    "Scheduling study blocks...",
+    "Organizing study time...",
+    "Planning exam prep...",
+    "Creating revision plan...",
+    "Allocating study hours...",
+    "Mapping study calendar...",
+    "Generating study plan..."
+  ],
+  'StudyPlanner:student_study_preferences': [
+    "Applying time preferences...",
+    "Setting study hours...",
+    "Configuring schedule...",
+    "Processing preferences...",
+    "Adjusting study times...",
+    "Applying schedule prefs...",
+    "Setting session duration...",
+    "Configuring study days...",
+    "Optimizing schedule...",
+    "Finalizing preferences..."
+  ],
+  // StudyPlanner Fallback
+  StudyPlanner: [
+    "Planning study schedule...",
+    "Loading planner data...",
+    "Accessing calendar...",
+    "Creating schedule...",
+    "Organizing sessions...",
+    "Processing plan...",
+    "Syncing calendar...",
+    "Building timetable...",
+    "Scheduling blocks...",
+    "Preparing plan..."
+  ],
+
   // ============================================
   // UK Showcase - Resident Guide Agents
   // Aligned with Presenter Spreadsheet
@@ -731,6 +911,190 @@ export const SM_TOOL_MESSAGES = {
   ]
 };
 
+// LMS (Virtual Learning) tool messages (Intention-Specific) - Student Guide
+export const LMS_TOOL_MESSAGES = {
+  'student_onboarding_tasks': [
+    "Accessing Virtual Learning...",
+    "Loading course enrollment...",
+    "Syncing learning modules...",
+    "Fetching course content...",
+    "Processing onboarding materials...",
+    "Retrieving module access...",
+    "Loading orientation courses...",
+    "Executing LMS query...",
+    "Preparing learning content...",
+    "Finalizing course access..."
+  ],
+  'student_assessment_extension': [
+    "Accessing Virtual Learning...",
+    "Querying assessment records...",
+    "Loading deadline data...",
+    "Fetching submission history...",
+    "Processing extension data...",
+    "Retrieving grade records...",
+    "Syncing assessment dates...",
+    "Executing deadline query...",
+    "Preparing extension info...",
+    "Finalizing assessment data..."
+  ],
+  'student_exam_planner': [
+    "Accessing Virtual Learning...",
+    "Loading exam calendar...",
+    "Syncing study materials...",
+    "Fetching exam schedule...",
+    "Processing timetable data...",
+    "Retrieving revision content...",
+    "Loading module structure...",
+    "Executing schedule query...",
+    "Preparing exam content...",
+    "Finalizing learning data..."
+  ],
+  'default': [
+    "Accessing Virtual Learning...",
+    "Loading course data...",
+    "Syncing learning content...",
+    "Fetching modules...",
+    "Processing LMS request...",
+    "Retrieving materials...",
+    "Executing query...",
+    "Preparing content...",
+    "Finalizing access...",
+    "Completing operation..."
+  ]
+};
+
+// Tasks & Workflow tool messages (Intention-Specific) - Student Guide
+export const TASKS_TOOL_MESSAGES = {
+  'student_onboarding_tasks': [
+    "Accessing Task System...",
+    "Creating task workflow...",
+    "Loading checklist items...",
+    "Processing task creation...",
+    "Building action items...",
+    "Assigning task priorities...",
+    "Setting task deadlines...",
+    "Executing task setup...",
+    "Preparing task list...",
+    "Finalizing workflow..."
+  ],
+  'student_onboarding_confirm': [
+    "Accessing Task System...",
+    "Saving task selections...",
+    "Updating task status...",
+    "Processing confirmations...",
+    "Finalizing task choices...",
+    "Storing task preferences...",
+    "Completing task setup...",
+    "Executing updates...",
+    "Preparing final list...",
+    "Finalizing selections..."
+  ],
+  'student_assessment_extension': [
+    "Accessing Task System...",
+    "Updating deadline tasks...",
+    "Processing schedule changes...",
+    "Modifying task dates...",
+    "Adjusting task timeline...",
+    "Syncing deadline changes...",
+    "Rescheduling tasks...",
+    "Executing updates...",
+    "Preparing task changes...",
+    "Finalizing extensions..."
+  ],
+  'default': [
+    "Accessing Task System...",
+    "Processing task request...",
+    "Loading task data...",
+    "Updating task records...",
+    "Managing workflow...",
+    "Executing operation...",
+    "Syncing tasks...",
+    "Preparing response...",
+    "Finalizing task...",
+    "Completing operation..."
+  ]
+};
+
+// CourseLoop (Curriculum) tool messages (Intention-Specific) - Student Guide
+export const COURSELOOP_TOOL_MESSAGES = {
+  'student_exam_planner': [
+    "Accessing Curriculum Mgmt...",
+    "Loading syllabus data...",
+    "Fetching course structure...",
+    "Processing exam topics...",
+    "Retrieving unit details...",
+    "Mapping content coverage...",
+    "Loading module outline...",
+    "Executing curriculum query...",
+    "Preparing topic data...",
+    "Finalizing syllabus..."
+  ],
+  'student_study_preferences': [
+    "Accessing Curriculum Mgmt...",
+    "Loading subject weights...",
+    "Processing topic priorities...",
+    "Analyzing difficulty levels...",
+    "Mapping study areas...",
+    "Retrieving focus areas...",
+    "Loading priority rankings...",
+    "Executing preference query...",
+    "Preparing curriculum focus...",
+    "Finalizing priorities..."
+  ],
+  'default': [
+    "Accessing Curriculum Mgmt...",
+    "Loading course data...",
+    "Fetching syllabus...",
+    "Processing curriculum...",
+    "Retrieving modules...",
+    "Syncing course info...",
+    "Executing query...",
+    "Preparing content...",
+    "Finalizing data...",
+    "Completing operation..."
+  ]
+};
+
+// StudyPlanner (Time Planner) tool messages (Intention-Specific) - Student Guide
+export const STUDYPLANNER_TOOL_MESSAGES = {
+  'student_exam_planner': [
+    "Accessing Time Planner...",
+    "Creating study schedule...",
+    "Building revision timetable...",
+    "Processing exam prep plan...",
+    "Scheduling study blocks...",
+    "Allocating revision time...",
+    "Organizing calendar slots...",
+    "Executing schedule creation...",
+    "Preparing study plan...",
+    "Finalizing timetable..."
+  ],
+  'student_study_preferences': [
+    "Accessing Time Planner...",
+    "Applying time preferences...",
+    "Setting session duration...",
+    "Processing schedule config...",
+    "Configuring study hours...",
+    "Adjusting day preferences...",
+    "Optimizing time slots...",
+    "Executing preference update...",
+    "Preparing custom schedule...",
+    "Finalizing preferences..."
+  ],
+  'default': [
+    "Accessing Time Planner...",
+    "Loading schedule data...",
+    "Processing planner request...",
+    "Creating calendar entries...",
+    "Organizing study time...",
+    "Building timetable...",
+    "Executing operation...",
+    "Syncing calendar...",
+    "Preparing schedule...",
+    "Completing operation..."
+  ]
+};
+
 // Knowledge Base tool messages (Intention-Specific) - Student Guide
 export const KB_TOOL_MESSAGES = {
   'student_assessment_extension': [
@@ -1221,6 +1585,38 @@ export function getRandomMessage(nodeId, intention = null) {
     return messages[Math.floor(Math.random() * messages.length)];
   }
 
+  // Special handling for LMS (Virtual Learning) tool - Student Guide (intention-aware)
+  if (nodeId === 'LMS-tool') {
+    const messages = intention && LMS_TOOL_MESSAGES[intention]
+      ? LMS_TOOL_MESSAGES[intention]
+      : LMS_TOOL_MESSAGES['default'];
+    return messages[Math.floor(Math.random() * messages.length)];
+  }
+
+  // Special handling for Tasks tool - Student Guide (intention-aware)
+  if (nodeId === 'Tasks-tool') {
+    const messages = intention && TASKS_TOOL_MESSAGES[intention]
+      ? TASKS_TOOL_MESSAGES[intention]
+      : TASKS_TOOL_MESSAGES['default'];
+    return messages[Math.floor(Math.random() * messages.length)];
+  }
+
+  // Special handling for CourseLoop (Curriculum) tool - Student Guide (intention-aware)
+  if (nodeId === 'CourseLoop-tool') {
+    const messages = intention && COURSELOOP_TOOL_MESSAGES[intention]
+      ? COURSELOOP_TOOL_MESSAGES[intention]
+      : COURSELOOP_TOOL_MESSAGES['default'];
+    return messages[Math.floor(Math.random() * messages.length)];
+  }
+
+  // Special handling for StudyPlanner (Time Planner) tool - Student Guide (intention-aware)
+  if (nodeId === 'StudyPlanner-tool') {
+    const messages = intention && STUDYPLANNER_TOOL_MESSAGES[intention]
+      ? STUDYPLANNER_TOOL_MESSAGES[intention]
+      : STUDYPLANNER_TOOL_MESSAGES['default'];
+    return messages[Math.floor(Math.random() * messages.length)];
+  }
+
   // ============================================
   // Resident Guide Tools (intention-aware)
   // ============================================
@@ -1292,12 +1688,14 @@ export function getRandomMessage(nodeId, intention = null) {
   }
 
   // For Student Guide agents (intention-aware)
-  if (nodeId === 'StudentManagement' || nodeId === 'Knowledge') {
+  if (['StudentManagement', 'Knowledge', 'LMS', 'Tasks', 'CourseLoop', 'StudyPlanner'].includes(nodeId)) {
     const intentionKey = `${nodeId}:${intention}`;
     const messages = intention && AGENT_MESSAGES[intentionKey]
       ? AGENT_MESSAGES[intentionKey]
       : AGENT_MESSAGES[nodeId]; // Fallback to generic messages
-    return messages[Math.floor(Math.random() * messages.length)];
+    if (messages) {
+      return messages[Math.floor(Math.random() * messages.length)];
+    }
   }
 
   // For Resident Guide agents (intention-aware)

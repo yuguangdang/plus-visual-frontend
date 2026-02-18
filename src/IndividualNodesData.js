@@ -431,7 +431,7 @@ function getStudentGuideNodesAndEdges() {
       id: 'orchestrator',
       type: 'customBidirectional',
       position: { x: 150, y: LAYOUT_CONFIG.TIER_1_Y },
-      data: { label: 'Student Guide', tier: 1, icon: 'orchestrator', nodeType: 'orchestrator' }
+      data: { label: 'Guide for Student', tier: 1, icon: 'orchestrator', nodeType: 'orchestrator' }
     },
     {
       id: 'usercontext',
@@ -459,9 +459,9 @@ function getStudentGuideNodesAndEdges() {
     // Note: Labels differ from spreadsheet for display purposes (see comments at function top)
     let icon, label;
     if (agent.id === 'LMS') {
-      // LMS = Learning Management System in spreadsheet, tool displayed as VLE
-      icon = 'SC25_PLUS_3rdParty';  // University Services use 3rd party icon
-      label = 'VLE';
+      // LMS = Learning Management System in spreadsheet, tool displayed as Virtual Learning
+      icon = 'SC25_PLUS_VirtualLearning';
+      label = 'Virtual Learning';
     } else if (agent.id === 'Knowledge') {
       // Knowledge Base in spreadsheet, tool displayed as Uni Website
       icon = 'SC25_PLUS_3rdParty';  // University Services use 3rd party icon
@@ -622,7 +622,7 @@ function getResidentGuideNodesAndEdges() {
       id: 'orchestrator',
       type: 'customBidirectional',
       position: { x: 225, y: LAYOUT_CONFIG.TIER_1_Y },
-      data: { label: 'Resident Guide', tier: 1, icon: 'orchestrator', nodeType: 'orchestrator' }
+      data: { label: 'Guide for Resident', tier: 1, icon: 'orchestrator', nodeType: 'orchestrator' }
     },
     {
       id: 'usercontext',

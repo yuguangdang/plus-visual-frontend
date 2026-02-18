@@ -7,17 +7,15 @@
       }
     </style>
   </defs>
-  <!-- Course Loop / Curriculum - Circular arrows with book/document -->
-  <!-- Circular refresh arrows -->
-  <path class="cls-1" d="M45,20c-13.8,0-25,11.2-25,25h6c0-10.5,8.5-19,19-19s19,8.5,19,19c0,10.5-8.5,19-19,19v6c13.8,0,25-11.2,25-25S58.8,20,45,20z"/>
-  <!-- Arrow head top -->
-  <polygon class="cls-1" points="20,45 26,39 26,51"/>
-  <!-- Arrow head bottom -->
-  <polygon class="cls-1" points="45,70 51,64 39,64"/>
-  <!-- Document/course icon in center -->
-  <rect class="cls-1" x="35" y="35" width="20" height="24" rx="2"/>
-  <!-- Document lines (dark for contrast) -->
-  <rect x="39" y="40" width="12" height="2" fill="#1a1a2e"/>
-  <rect x="39" y="45" width="12" height="2" fill="#1a1a2e"/>
-  <rect x="39" y="50" width="8" height="2" fill="#1a1a2e"/>
+  <!-- Curriculum - Stacked books (vertical stack, side view) -->
+  <!-- Book 1 (bottom) - thickest -->
+  <rect class="cls-1" x="15" y="55" width="60" height="18" rx="2"/>
+  <!-- Book 2 (middle) -->
+  <rect class="cls-1" x="18" y="35" width="54" height="16" rx="2"/>
+  <!-- Book 3 (top) -->
+  <rect class="cls-1" x="21" y="17" width="48" height="14" rx="2"/>
+  <!-- Book spines (left side details) -->
+  <rect x="15" y="55" width="6" height="18" rx="1" fill="#000" opacity="0.15"/>
+  <rect x="18" y="35" width="6" height="16" rx="1" fill="#000" opacity="0.15"/>
+  <rect x="21" y="17" width="6" height="14" rx="1" fill="#000" opacity="0.15"/>
 </svg>
