@@ -14,7 +14,8 @@ export const AGENT_NODE_IDS = [
 ];
 
 // UK Showcase Agent IDs
-export const STUDENT_AGENT_IDS = ['StudentManagement', 'LMS', 'Knowledge', 'Tasks', 'StudyPlanner', 'CourseLoop'];
+// Student: Order matches new structure - VLE(LMS), KB(Knowledge), SM, Curriculum(CourseLoop), Tasks, Planner(StudyPlanner)
+export const STUDENT_AGENT_IDS = ['LMS', 'Knowledge', 'StudentManagement', 'CourseLoop', 'Tasks', 'StudyPlanner'];
 export const RESIDENT_AGENT_IDS = ['knowledge', 'ecm', 'request', 'spatial', 'webagent', 'bincollections', 'taxtransactions'];
 
 export function getAgentIdsForGuide(guideType) {
@@ -53,26 +54,27 @@ export const CAMERA_ANIMATION_CONFIG = {
   NODE_POSITIONS: {} // Placeholder - use getNodePositionsForGuide()
 };
 
-// Student Guide node positions (6 agents, 120px spacing)
+// Student Guide node positions (6 agents, 150px spacing with small gap between groups)
+// New order: VLE(LMS), KB(Knowledge), SM, Curriculum(CourseLoop), Tasks, Planner(StudyPlanner)
 const STUDENT_NODE_POSITIONS = {
-  // Tier 1 (centered above 6 agents)
-  user: { x: -60, y: -140 },
-  orchestrator: { x: 120, y: -140 },
-  usercontext: { x: 300, y: -140 },
-  // Tier 2 Agents (6 agents, 120px spacing, centered)
-  StudentManagement: { x: -180, y: 60 },
-  LMS: { x: -60, y: 60 },
-  Knowledge: { x: 60, y: 60 },
-  Tasks: { x: 180, y: 60 },
-  StudyPlanner: { x: 300, y: 60 },
-  CourseLoop: { x: 420, y: 60 },
+  // Tier 1 (centered above 6 agents, 225px spacing like Resident Guide)
+  user: { x: -75, y: -140 },
+  orchestrator: { x: 150, y: -140 },
+  usercontext: { x: 375, y: -140 },
+  // Tier 2 Agents - New order: VLE, KB | SM, Curriculum, Tasks, Planner (small gap between groups)
+  LMS: { x: -225, y: 60 },             // VLE (Uni Services)
+  Knowledge: { x: -75, y: 60 },        // KB (Uni Services)
+  StudentManagement: { x: 75, y: 60 }, // SM (ERP Services)
+  CourseLoop: { x: 225, y: 60 },       // Curriculum (ERP Services)
+  Tasks: { x: 375, y: 60 },            // Tasks (ERP Services)
+  StudyPlanner: { x: 525, y: 60 },     // Planner (ERP Services)
   // Tier 3 Tools
-  'StudentManagement-tool': { x: -180, y: 260 },
-  'LMS-tool': { x: -60, y: 260 },
-  'Knowledge-tool': { x: 60, y: 260 },
-  'Tasks-tool': { x: 180, y: 260 },
-  'StudyPlanner-tool': { x: 300, y: 260 },
-  'CourseLoop-tool': { x: 420, y: 260 }
+  'LMS-tool': { x: -225, y: 260 },
+  'Knowledge-tool': { x: -75, y: 260 },
+  'StudentManagement-tool': { x: 75, y: 260 },
+  'CourseLoop-tool': { x: 225, y: 260 },
+  'Tasks-tool': { x: 375, y: 260 },
+  'StudyPlanner-tool': { x: 525, y: 260 }
 };
 
 // Resident Guide node positions - aligned with IndividualNodesData.js

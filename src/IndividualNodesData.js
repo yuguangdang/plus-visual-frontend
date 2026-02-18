@@ -387,35 +387,56 @@ export function getNodesAndEdges(guideType) {
 }
 
 // Student Guide Configuration (6 agents) - Aligned with UK Showcase Prompts(STU).csv
+// Note: Internal IDs remain unchanged for backend compatibility. Display labels differ from spreadsheet:
+// - LMS (Learning Management System) → displayed as "VLE" (Virtual Learning Environment)
+// - Knowledge (Knowledge Base) → tool displayed as "Uni Website"
+// - CourseLoop (Course Loop) → displayed as "Curriculum"
+// - StudyPlanner (Study Planner) → tool displayed as "Time Planner"
 function getStudentGuideNodesAndEdges() {
-  // 6 agents for Student Guide, 120px spacing, centered layout
-  const studentAgents = [
-    { id: 'StudentManagement', label: 'SM Agent', color: COLORS.STUDENTMANAGEMENT_TEAL, x: -180 },
-    { id: 'LMS', label: 'LMS Agent', color: COLORS.LMS_INDIGO, x: -60 },
-    { id: 'Knowledge', label: 'KB Agent', color: COLORS.KNOWLEDGE_STUDENT_PURPLE, x: 60 },
-    { id: 'Tasks', label: 'Tasks Agent', color: COLORS.TASKS_AMBER, x: 180 },
-    { id: 'StudyPlanner', label: 'Planner', color: COLORS.STUDYPLANNER_GREEN, x: 300 },
-    { id: 'CourseLoop', label: 'Course', color: COLORS.COURSELOOP_GOLD, x: 420 }
+  // Split agents into University Services and ERP Services groups (for tool tier grouping)
+  // Spacing: 150px between agents, with small gap between Uni Services and ERP Services
+  // University Services: VLE, KB (first 2 agents)
+  const uniServicesAgents = [
+    // LMS = Learning Management System in spreadsheet, displayed as VLE (Virtual Learning Environment)
+    { id: 'LMS', label: 'VLE', color: COLORS.LMS_INDIGO, x: -225 },
+    // Knowledge = Knowledge Base in spreadsheet, displayed as KB
+    { id: 'Knowledge', label: 'KB', color: COLORS.KNOWLEDGE_STUDENT_PURPLE, x: -75 }
   ];
 
+  // ERP Services: SM, Curriculum, Tasks, Planner (last 4 agents)
+  // Small gap between KB (-75) and SM (75) for container separation
+  const erpServicesAgents = [
+    { id: 'StudentManagement', label: 'SM', color: COLORS.STUDENTMANAGEMENT_TEAL, x: 75 },
+    // CourseLoop = Course Loop in spreadsheet, displayed as Curriculum
+    { id: 'CourseLoop', label: 'Curriculum', color: COLORS.COURSELOOP_GOLD, x: 225 },
+    { id: 'Tasks', label: 'Tasks', color: COLORS.TASKS_AMBER, x: 375 },
+    // StudyPlanner = Study Planner in spreadsheet
+    { id: 'StudyPlanner', label: 'Planner', color: COLORS.STUDYPLANNER_GREEN, x: 525 }
+  ];
+
+  // Combined agents array (order: VLE, KB, SM, Curriculum, Tasks, Planner)
+  const studentAgents = [...uniServicesAgents, ...erpServicesAgents];
+
   // Tier 1 positions adjusted for 6-agent layout (centered above agents)
+  // Agent range: -225 to 525, center = 150
+  // Use same spacing as Resident Guide (225px between nodes)
   const tier1 = [
     {
       id: 'user',
       type: 'customBidirectional',
-      position: { x: -60, y: LAYOUT_CONFIG.TIER_1_Y },
-      data: { label: 'User', tier: 1, icon: 'user', nodeType: 'user' }
+      position: { x: -75, y: LAYOUT_CONFIG.TIER_1_Y },
+      data: { label: 'Student', tier: 1, icon: 'user', nodeType: 'user' }
     },
     {
       id: 'orchestrator',
       type: 'customBidirectional',
-      position: { x: 120, y: LAYOUT_CONFIG.TIER_1_Y },
+      position: { x: 150, y: LAYOUT_CONFIG.TIER_1_Y },
       data: { label: 'Student Guide', tier: 1, icon: 'orchestrator', nodeType: 'orchestrator' }
     },
     {
       id: 'usercontext',
       type: 'customBidirectional',
-      position: { x: 300, y: LAYOUT_CONFIG.TIER_1_Y },
+      position: { x: 375, y: LAYOUT_CONFIG.TIER_1_Y },
       data: { label: 'Digital Twin', tier: 1, icon: 'context', nodeType: 'usercontext' }
     }
   ];
@@ -434,26 +455,31 @@ function getStudentGuideNodesAndEdges() {
   }));
 
   const toolNodesStudent = studentAgents.map(agent => {
-    // Determine icon and label based on agent type - aligned with spreadsheet
+    // Determine icon and label based on agent type
+    // Note: Labels differ from spreadsheet for display purposes (see comments at function top)
     let icon, label;
-    if (agent.id === 'StudentManagement') {
+    if (agent.id === 'LMS') {
+      // LMS = Learning Management System in spreadsheet, tool displayed as VLE
+      icon = 'SC25_PLUS_3rdParty';  // University Services use 3rd party icon
+      label = 'VLE';
+    } else if (agent.id === 'Knowledge') {
+      // Knowledge Base in spreadsheet, tool displayed as Uni Website
+      icon = 'SC25_PLUS_3rdParty';  // University Services use 3rd party icon
+      label = 'Uni Website';
+    } else if (agent.id === 'StudentManagement') {
       icon = 'SC25_PLUS_CiA';
       label = 'Student Mgmt';
-    } else if (agent.id === 'LMS') {
+    } else if (agent.id === 'CourseLoop') {
+      // Course Loop in spreadsheet, displayed as Curriculum Mgmt
       icon = 'SC25_PLUS_CiA';
-      label = 'Learning Mgmt';
-    } else if (agent.id === 'Knowledge') {
-      icon = 'SC25_PLUS_DXP';
-      label = 'Knowledge Base';
+      label = 'Curriculum Mgmt';
     } else if (agent.id === 'Tasks') {
       icon = 'SC25_PLUS_CiA';
       label = 'Tasks & Workflow';
     } else if (agent.id === 'StudyPlanner') {
+      // Study Planner in spreadsheet, tool displayed as Time Planner
       icon = 'SC25_PLUS_CiA';
-      label = 'Study Planner';
-    } else if (agent.id === 'CourseLoop') {
-      icon = 'SC25_PLUS_CiA';
-      label = 'Course Loop';
+      label = 'Time Planner';
     } else {
       icon = 'tool';
       label = 'Tools';
@@ -475,12 +501,27 @@ function getStudentGuideNodesAndEdges() {
     };
   });
 
-  // Calculate dynamic container width based on agent positions
+  // Calculate dynamic container width based on all agent positions (for SUB-AGENTS group)
   const agentXPositions = studentAgents.map(a => a.x);
   const minX = Math.min(...agentXPositions);
   const maxX = Math.max(...agentXPositions);
   const containerWidth = (maxX - minX) + 140; // Add 70px padding on each side (node width)
   const containerCenter = (minX + maxX) / 2; // Center of all agents
+
+  // University Services container (first 2 tools: VLE, Uni Website)
+  // Container is positioned using nodeOrigin=[0.5, 0.5], so position is the center
+  const uniServicesXPositions = uniServicesAgents.map(a => a.x);
+  const uniServicesMinX = Math.min(...uniServicesXPositions);  // -225
+  const uniServicesMaxX = Math.max(...uniServicesXPositions);  // -75
+  const uniServicesContainerWidth = (uniServicesMaxX - uniServicesMinX) + 140;  // 150 + 140 = 290
+  const uniServicesContainerCenter = (uniServicesMinX + uniServicesMaxX) / 2;   // -150
+
+  // ERP Services container (last 4 tools: Student Mgmt, Curriculum Mgmt, Tasks & Workflow, Time Planner)
+  const erpServicesXPositions = erpServicesAgents.map(a => a.x);
+  const erpServicesMinX = Math.min(...erpServicesXPositions);  // 75
+  const erpServicesMaxX = Math.max(...erpServicesXPositions);  // 525
+  const erpServicesContainerWidth = (erpServicesMaxX - erpServicesMinX) + 140;  // 450 + 140 = 590
+  const erpServicesContainerCenter = (erpServicesMinX + erpServicesMaxX) / 2;   // 300
 
   const groupNodesStudent = [
     {
@@ -499,11 +540,26 @@ function getStudentGuideNodesAndEdges() {
       data: { label: 'SUB-AGENTS' }
     },
     {
-      id: 'mcp-tools-group',
+      id: 'uni-services-group',
       type: 'group',
-      position: { x: containerCenter, y: 250 },
+      position: { x: uniServicesContainerCenter, y: 250 },
       style: {
-        width: containerWidth,
+        width: uniServicesContainerWidth,
+        height: 130,
+        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%)',
+        backdropFilter: 'blur(12px) saturate(110%)',
+        border: '1px solid rgba(255, 255, 255, 0.12)',
+        borderRadius: 16,
+        zIndex: -1
+      },
+      data: { label: 'UNI SERVICES' }
+    },
+    {
+      id: 'erp-services-group',
+      type: 'group',
+      position: { x: erpServicesContainerCenter, y: 250 },
+      style: {
+        width: erpServicesContainerWidth,
         height: 130,
         background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%)',
         backdropFilter: 'blur(12px) saturate(110%)',

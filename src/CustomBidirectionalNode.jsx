@@ -201,8 +201,8 @@ const CustomBidirectionalNode = React.memo(({ data, isConnectable }) => {
       {/* Handles for all tiers to support bidirectional flow */}
       {tier === 1 && (
         <>
-          {/* User: needs source-right to connect to orchestrator and target-right for reverse flow */}
-          {(data.label === 'User') && (
+          {/* User/Student: needs source-right to connect to orchestrator and target-right for reverse flow */}
+          {(data.label === 'User' || data.label === 'Student') && (
             <>
               <Handle
                 type="source"
