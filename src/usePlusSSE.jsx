@@ -33,8 +33,8 @@ export function usePlusSSE() {
           }, 100);
           break;
 
-        case 'intention_extracted':
-          const { agents } = data.data;
+        case 'intention_extracted': {
+          const { agents, intention } = data.data;
 
           // Filter out 'orchestrator' as it's not a sub-agent
           const subAgents = (agents || []).filter(agent => agent !== 'orchestrator');
@@ -45,12 +45,13 @@ export function usePlusSSE() {
           // Only start intention loop if there are sub-agents to activate
           if (subAgents.length > 0) {
             setTimeout(() => {
-              startIntentionExtractedSequence(subAgents);
+              startIntentionExtractedSequence(subAgents, intention);
             }, 100);
           }
           // For general inquiry (orchestrator only), animation stays at orchestrator processing
           // and waits for chat_completed event
           break;
+        }
 
         case 'chat_completed':
           // Start the completion animation sequence

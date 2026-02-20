@@ -34,6 +34,9 @@ export const AnimationProvider = ({ children }) => {
   const messageIntervals = useRef({}); // Store individual intervals for each node
   const [isSSEConnected, setIsSSEConnected] = useState(false);
 
+  // Store current intention for intention-aware messages
+  const [currentIntention, setCurrentIntention] = useState(null);
+
   // Loop control
   const [loopAgents, setLoopAgents] = useState([]);
   const [isLooping, setIsLooping] = useState(false);
@@ -390,7 +393,7 @@ export const AnimationProvider = ({ children }) => {
     }
   }, [animationPhase, subPhase, isLooping, loopAgents, handleLoopPhase]);
 
-  // Message rotation effect for sub-agents and tools
+  // Message rotation effect for sub-agents and tools (intention-aware)
   useEffect(() => {
     if (animationPhase === 'intention_extracted' &&
         (subPhase === 'agents_processing' || subPhase === 'tools_active' || subPhase === 'tools_returning')) {
@@ -399,23 +402,23 @@ export const AnimationProvider = ({ children }) => {
       Object.values(messageIntervals.current).forEach(clearInterval);
       messageIntervals.current = {};
 
-      // Set up individual message rotation for each active node
+      // Set up individual message rotation for each active node (intention-aware)
       activeNodes.forEach(nodeId => {
         if (nodeId !== 'orchestrator' && nodeId !== 'user' && nodeId !== 'usercontext') {
-          // Set initial message
+          // Set initial message with intention context
           setNodeMessages(prev => ({
             ...prev,
-            [nodeId]: getRandomMessage(nodeId)
+            [nodeId]: getRandomMessage(nodeId, currentIntention)
           }));
 
           // Random interval between 800-1500ms for variety
           const randomInterval = 800 + Math.random() * 700;
 
-          // Set up rotation for this specific node
+          // Set up rotation for this specific node (intention-aware)
           messageIntervals.current[nodeId] = setInterval(() => {
             setNodeMessages(prev => ({
               ...prev,
-              [nodeId]: getRandomMessage(nodeId)
+              [nodeId]: getRandomMessage(nodeId, currentIntention)
             }));
           }, randomInterval);
         }
@@ -433,7 +436,7 @@ export const AnimationProvider = ({ children }) => {
       Object.values(messageIntervals.current).forEach(clearInterval);
       messageIntervals.current = {};
     }
-  }, [animationPhase, subPhase, activeNodes]);
+  }, [animationPhase, subPhase, activeNodes, currentIntention]);
 
   // Remove handleLoopSubPhase as it's no longer needed
 
@@ -448,7 +451,10 @@ export const AnimationProvider = ({ children }) => {
     }, 100);
   }, [resetAll]);
 
-  const startIntentionExtractedSequence = useCallback((agents) => {
+  const startIntentionExtractedSequence = useCallback((agents, intention = null) => {
+    // Store the intention for message context
+    setCurrentIntention(intention);
+
     // Clear previous animation timer to start new sequence
     if (animationTimerRef.current) {
       clearTimeout(animationTimerRef.current);
