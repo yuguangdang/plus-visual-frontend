@@ -1,6 +1,6 @@
 import React from 'react';
 import { Handle, Position } from 'reactflow';
-import plusIcon from './assets/SVG/SC25_PLUS_Plus.svg';
+import guideIcon from './assets/SVG/guide.svg';
 import userIcon from './assets/SVG/SC25_PLUS_User.svg';
 import userContextIcon from './assets/SVG/SC25_PLUS_User context.svg';
 import knowledgeIcon from './assets/SVG/SC25_PLUS_Knowledge.svg';
@@ -357,15 +357,16 @@ const CustomBidirectionalNode = React.memo(({ data, isConnectable }) => {
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '32px' }}>
             {icon === 'orchestrator' || label === 'Plus AI' ? (
               <img
-                src={plusIcon}
+                src={guideIcon}
                 alt={label}
                 style={{
-                  width: '32px',
-                  height: '32px',
-                  objectFit: 'contain',
+                  width: '50px',
+                  height: '50px',
+                  objectFit: 'cover',
                   borderRadius: '50%',
                   background: 'white',
-                  padding: '4px'
+                  padding: '0px',
+                  clipPath: 'circle(16px at center)'
                 }}
               />
             ) : icon === 'user' ? (
